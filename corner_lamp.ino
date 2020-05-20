@@ -29,6 +29,7 @@
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
+#include "config.h"
 
 /************ MUMBO-JUMBO! ******************/
 
@@ -59,12 +60,12 @@ int freeMemory() {
 }
 
 /************ WIFI and MQTT Information ******************/
-const char* ssid = "Weefers Plus"; 
-const char* password = "";
-const char* mqtt_server = "192.168.0.197";
-const char* mqtt_username = "bashwin";
-const char* mqtt_password = "";
-const int mqtt_port = 1883;
+const char* ssid = SSI; 
+const char* password = WIFI_PASSWORD;
+const char* mqtt_server = RPI_IP;
+const char* mqtt_username = MQTT_U;
+const char* mqtt_password = MQTT_P;
+const int mqtt_port = MQTT_PRT;
 const byte MAX_ATTEMPTS = 10;
 
 
