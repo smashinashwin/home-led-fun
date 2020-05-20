@@ -47,7 +47,12 @@ extern "C" char* sbrk(int incr);
 #else  // __ARM__
 extern char *__brkval;
 #endif  // __arm__
- 
+
+extern "C" {
+#include "user_interface.h"
+}
+
+
 int freeMemory() {
   char top;
 #ifdef __arm__
@@ -76,7 +81,7 @@ int OTAport = 8266;
 
 
 /************* MQTT TOPICS *************************************************************/
-const char* light_state_topic = "lamp/state"; //on or off. not used yet
+const char* light_state_topic = "lamp/state"; 
 const char* light_pattern_topic = "lamp/pattern";
 
 /****************************************FOR JSON***************************************/
@@ -539,19 +544,22 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
   message[length] = '\0';
   Serial.println(message);
-  if (topic == light_pattern_topic) {
+  if (strcmp(topic,light_pattern_topic) == 0) {
+    Serial.println("running pattern parse");
     if (!patternJson(message)) {
       return;
     } 
   }
-  else if (topic == light_state_topic) {
+  else if (strcmp(topic,light_state_topic) == 0) {
     if (!setState()) {
       return;
     }
   }
+  Serial.println(stateOn);
   //this isn't wokring correctly. could use arduinojson
   //or escape characters or add to a string or something. lazy.
-  //would be good for debugging over wifi
+  //would be good for debugging over wifi; getting accurate state / telling the server its settings
+  
   client.publish("esp8266/ack", message, true);
 }
 
@@ -566,11 +574,12 @@ void sendState() {
 void modifyPointer(uint32_t *&pp, uint32_t pointee[]) {
     pp = pointee;
 }
-
+//right now sending literally anything to this topic will turn the lamp on or off.
+//meaning the lamp initializes off.
+//set it to a specific message 
 bool setState() {
-  //right now sending literally anything to this topic will turn the lamp on or off.
-  //could sophisticate but don't have a reason to right now.
   stateOn = !stateOn;
+  return true;
 }
 
 
@@ -828,7 +837,7 @@ void loop() {
 
   ArduinoOTA.handle();
 
-  if (stateOn = false) {
+  if (stateOn == false) {
     solidColor(0, 0, 0, 0);
   }
   else {
@@ -847,6 +856,9 @@ void loop() {
     if (pattern == 4) {
       glitter();
       ember();
+    }
+    if (millis() % 1000 == 0) {
+      Serial.println(system_get_free_heap_size());
     }
   }     
 }
