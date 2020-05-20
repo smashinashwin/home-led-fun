@@ -8,7 +8,7 @@
  * 5. Make random randomer with a seed 
  * 6. Finish twinkle stars so that it actually just randomly has x% on. also make that MQTTable
  * DONE 7. embers is too fast with new controller need to sloooow it down 
- * 8. abstract the passwords out
+ * DONE 8. abstract the passwords out
  * DONE 9. make solid patterns
  * DONE 10. make an off pattern 
  * 11. slow color fades
@@ -215,7 +215,7 @@ int num_pixels_off = 0;
 
 /****************************** PIXEL CLASS FOR SMARTER CONTROL ***********************/
 //saving the state of every pixel in order to:
-//not have to poll the pixel for it's color (slow)
+//not have to poll the pixel for its color (slow)
 //dim and fade in smartly
 //store last updated status
 //keep logic for what the pixel should do with the state of the pixel
