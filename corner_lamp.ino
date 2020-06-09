@@ -19,6 +19,8 @@
  *    - fast-restart the lamp & store existing settings in memory? 
  *    - defailt back to a better dumb mode? Start in off state so it never wakes me up?)
  * 15. MQTT front-end; buttons, color wheel, etc. Android app?
+ * 16. Access neopixel array
+ * 17. remove prints / move to debug 
 */
 
 #include <Arduino.h>
@@ -99,10 +101,12 @@ const byte NUM_PIXELS = 115;
 const byte NUM_STRIPS = 2;
 const byte TOTAL_PIXELS = NUM_PIXELS*NUM_STRIPS;
 extern const uint8_t gamma8[];
-const byte Pins[NUM_STRIPS] = {4, 2};
+const String Pins[NUM_STRIPS] = {"D2","D4"};
+#define PIN_0 D2
+#define PIN_1 D4
 Adafruit_NeoPixel Strips[NUM_STRIPS] = {
-  Adafruit_NeoPixel(NUM_PIXELS, Pins[0], NEO_GRBW + NEO_KHZ800),
-  Adafruit_NeoPixel(NUM_PIXELS, Pins[1], NEO_GRBW + NEO_KHZ800)
+  Adafruit_NeoPixel(NUM_PIXELS, PIN_0, NEO_GRBW + NEO_KHZ800),
+  Adafruit_NeoPixel(NUM_PIXELS, PIN_1, NEO_GRBW + NEO_KHZ800)
 };
 
 /*********************************** COLORS AND COLOR GROUPS *************************/
@@ -207,6 +211,8 @@ uint32_t *palette_gen() {
 }
 uint32_t *p;
 
+uint8_t *pixel_buffer;
+ 
 //STATES OF PIXELS
 //May get implemented if i refactor for more control.
 /*
@@ -465,7 +471,7 @@ void setup() {
   p = palette_gen();
 
   //for logging
-  Serial.begin(9600); // open the serial port at 9600 bps:
+  Serial.begin(115200);
 
 
 /************************************ WIFI, OTA,  AND MQTT STUFF **************************/
@@ -856,11 +862,8 @@ void loop() {
     if (pattern == 4) {
       glitter();
       ember();
-    }
-    if (millis() % 1000 == 0) {
-      Serial.println(system_get_free_heap_size());
-    }
-  }     
+    }  
+  }
 }
 
 
