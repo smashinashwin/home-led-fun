@@ -78,6 +78,8 @@ const int mqtt_port = MQTT_PRT;
 const byte MAX_ATTEMPTS = 10;
 WiFiClient espClient;
 PubSubClient client(espClient);
+WiFiServer TelnetServer(23);
+WiFiClient Telnet;
 
 /* FOR OTA */
 #define SENSORNAME "lampesp8266" 
@@ -177,9 +179,7 @@ uint32_t *palette = allStars;
 // 0 = EMBER; 1 = GLITTER; 2 = TWINKLE
 byte pattern = 0;
 
-
-
-/*********************************** WIFI AND MQTT FUNCTIONS ***************************/
+/****************************** WIFI, TELNET, AND MQTT FUNCTIONS *******************/
 void setup_wifi() {
   delay(50);
   Serial.println();
@@ -193,29 +193,43 @@ void setup_wifi() {
     Serial.print(".");
   }
   Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+  TelnetServer.begin();
+  TelnetServer.setNoDelay(true);
+  Telnet.println("WiFi connected");
+  Telnet.println("IP address: ");
+  Telnet.println(WiFi.localIP());
 }
 
-//reconnect to the MQTT server
-void reconnect() {
+void handleTelnet() {
+  if (TelnetServer.hasClient()) {
+    if (!Telnet || !Telnet.connected()) {
+      if (Telnet) Telnet.stop();
+      Telnet = TelnetServer.available();
+    }
+    else {
+      TelnetServer.available().stop();
+    }
+  }
+}
+
+
+void reconnect() { //reconnect to the MQTT server
   // Loop until we're reconnected
   // since this is usually cause the rpi is disconnected, it's not going to resolve.
   //need to handle that case better.
   int attempts = 0;
   for (int attempts = 0; attempts < MAX_ATTEMPTS; attempts ++) {
     while (!client.connected()) {
-      Serial.print("Attempting MQTT connection...");
+      Telnet.print("Attempting MQTT connection...");
       // Attempt to connect
       if (client.connect(SENSORNAME, mqtt_username, mqtt_password)) {
-        Serial.println("connected");
+        Telnet.println("connected");
         client.subscribe(light_pattern_topic);
         client.subscribe(light_state_topic);
       } else {
-        Serial.print("failed, rc=");
-        Serial.print(client.state());
-        Serial.println(" try again in 5 seconds");
+        Telnet.print("failed, rc=");
+        Telnet.print(client.state());
+        Telnet.println(" try again in 5 seconds");
         // Wait 5 seconds before retrying
         delay(5000);
       }
@@ -228,18 +242,18 @@ void reconnect() {
 //may need that for homeassistant
 //fails silently with long messages (that are still <512 bytes.) WHY? WHYYYY. Other MQTT clients can see the message. 
 void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
+  Telnet.print("Message arrived [");
+  Telnet.print(topic);
+  Telnet.print("] ");
 
   char message[length + 1];
   for (int i = 0; i < length; i++) {
     message[i] = (char)payload[i];
   }
   message[length] = '\0';
-  Serial.println(message);
+  Telnet.println(message);
   if (strcmp(topic,light_pattern_topic) == 0) {
-    Serial.println("running pattern parse");
+    Telnet.println("running pattern parse");
     if (!patternJson(message)) {
       return;
     } 
@@ -249,7 +263,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
       return;
     }
   }
-  Serial.println(stateOn);
+  Telnet.println(stateOn);
   //this isn't wokring correctly. could use arduinojson
   //or escape characters or add to a string or something. lazy.
   //would be good for debugging over wifi; getting accurate state / telling the server its settings
@@ -285,8 +299,8 @@ bool patternJson(char* message) {
   DeserializationError err = deserializeJson(jsonBuffer, message);
 
   if (err) {
-    Serial.println("parseObject() failed");
-    Serial.println(err.c_str());
+    Telnet.println("parseObject() failed");
+    Telnet.println(err.c_str());
     return false;
   }
 
@@ -296,12 +310,10 @@ bool patternJson(char* message) {
   
   if (jsonBuffer.containsKey("rgbw")) {
     JsonArray rgbw = jsonBuffer["rgbw"];
-
     solidColorRed = rgbw[0];
     solidColorGreen = rgbw[1];
     solidColorBlue = rgbw[2];
-    solidColorWhite = rgbw[3];
-    Serial.println(solidColorRed);
+    solidColorWhite = rgbw[3];    
   }  
 
   if (jsonBuffer.containsKey("chanceOfGlitter")) {
@@ -791,9 +803,9 @@ void setup() {
   });
   ArduinoOTA.begin();
 
-  Serial.println("Ready");
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP());
+  Telnet.println("Ready");
+  Telnet.print("IP Address: ");
+  Telnet.println(WiFi.localIP());
   //randomize the array
   //for starry pattern
   /*
@@ -811,18 +823,19 @@ void setup() {
 
 /********************************** MAIN LOOP ****************************************/
 void loop() {
-  /* KEEP WIFI AND MQTT RUNNING */
+  /* KEEP WIFI, TELNET, AND MQTT RUNNING */
   if (!client.connected()) {
     reconnect();
   }
   if (WiFi.status() != WL_CONNECTED) {
     delay(1);
-    Serial.print("WIFI Disconnected. Attempting reconnection.");
+    Telnet.print("WIFI Disconnected. Attempting reconnection.");
     setup_wifi();
     return;
   }
   client.loop();
   ArduinoOTA.handle();
+  handleTelnet();
   /* DO LIGHTS */
   if (stateOn == false) {
     solidColor(0, 0, 0, 0);
