@@ -80,6 +80,8 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 WiFiServer TelnetServer(23);
 WiFiClient Telnet;
+unsigned long lastMem = 0;
+
 
 /* FOR OTA */
 #define SENSORNAME "lampesp8266" 
@@ -124,26 +126,30 @@ const uint32_t Green = Adafruit_NeoPixel::Color(0, 255, 0, 10);
 const uint32_t Blue = Adafruit_NeoPixel::Color(0, 0, 255, 10);
 const uint32_t Pink = Adafruit_NeoPixel::Color(255, 20, 147, 0);
 const uint32_t Off = Adafruit_NeoPixel::Color(0,0,0,0);
-const uint32_t StarWhite0 = Adafruit_NeoPixel::Color(0,0,150,255);
-const uint32_t StarWhite1 = Adafruit_NeoPixel::Color(0,70,150,255);
-const uint32_t StarWhite2 = Adafruit_NeoPixel::Color(20,0,50,255);
-const uint32_t StarWhite3 = Adafruit_NeoPixel::Color(0,0,70,255);
-const uint32_t StarWhite4 = Adafruit_NeoPixel::Color(0,20,20,255);
+const uint32_t StarWhite0 = Adafruit_NeoPixel::Color(0,0,250,255);
+const uint32_t StarWhite1 = Adafruit_NeoPixel::Color(0,170,250,255);
+const uint32_t StarWhite2 = Adafruit_NeoPixel::Color(120,0,250,255);
+const uint32_t StarWhite3 = Adafruit_NeoPixel::Color(0,0,170,255);
+const uint32_t StarWhite4 = Adafruit_NeoPixel::Color(0,120,120,255);
 const uint32_t StarWhite5 = Adafruit_NeoPixel::Color(0,0,255,255);
 const uint32_t StarWhite6 = Adafruit_NeoPixel::Color(0,140,255,255);
-const uint32_t StarWhite7 = Adafruit_NeoPixel::Color(80,0,160,255);
+const uint32_t StarWhite7 = Adafruit_NeoPixel::Color(180,0,255,255);
 const uint32_t StarWhite8 = Adafruit_NeoPixel::Color(0,0,145,255);
-const uint32_t StarWhite9 = Adafruit_NeoPixel::Color(0,100,100,255);
+const uint32_t StarWhite9 = Adafruit_NeoPixel::Color(0,100,200,255);
+const uint32_t Neutral1 = Adafruit_NeoPixel::Color(255,50,155,255);
 
 /* COLOR GROUPS */
 uint32_t fireColors[8] = {Orange, DarkOrange, Red, DarkOrange, Red, Red, Yellow, YellowWhite};
-uint32_t aurora[5] = {DarkOrange, RedWhiteWhite, Blue, Purple, Yellow};
+uint32_t aurora[6] = {DarkOrange, RedWhiteWhite, Blue, Purple, Yellow, Green};
 uint32_t redGlitter[3] = {RedWhiteWhite, RedWhite, RedRedWhite};
 uint32_t blueGlitter[3] = {Blue, Purple, White};
 uint32_t stars[5] = {StarWhite0, StarWhite1, StarWhite2,StarWhite3, StarWhite4};
 uint32_t allStars[10] = {StarWhite0, StarWhite1, StarWhite2,StarWhite3, StarWhite4,
                                StarWhite5, StarWhite6, StarWhite7,StarWhite8, StarWhite9,};
 uint32_t girly[4] = {Blue, Green, Purple, Pink};
+uint32_t allColors[19] = {DarkOrange, Red, RedWhiteWhite, RedWhite, RedRedWhite, Yellow, YellowWhite, 
+                        White, Purple, Green, Blue, Pink, StarWhite0, StarWhite1, StarWhite2, StarWhite3,
+                        StarWhite4, StarWhite5, Neutral1};
 
 /* PATTERN PARAMETERS */
 // these are all MQTTABLE
@@ -181,6 +187,7 @@ byte pattern = 0;
 
 /****************************** WIFI, TELNET, AND MQTT FUNCTIONS *******************/
 void setup_wifi() {
+  WiFi.printDiag(Serial);
   delay(50);
   Serial.println();
   Serial.print("Connecting to ");
@@ -191,6 +198,8 @@ void setup_wifi() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
+    WiFi.printDiag(Serial);
+
   }
   Serial.println("");
   TelnetServer.begin();
@@ -198,6 +207,7 @@ void setup_wifi() {
   Telnet.println("WiFi connected");
   Telnet.println("IP address: ");
   Telnet.println(WiFi.localIP());
+  WiFi.printDiag(Serial);
 }
 
 void handleTelnet() {
@@ -254,6 +264,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Telnet.println(message);
   if (strcmp(topic,light_pattern_topic) == 0) {
     Telnet.println("running pattern parse");
+    Serial.println("running pattern parse");
     if (!patternJson(message)) {
       return;
     } 
@@ -406,6 +417,10 @@ bool patternJson(char* message) {
     if (pal == "girly") {
       modifyPointer(palette, girly);
       numColors = sizeof(girly)/sizeof(girly[0]);
+    }
+    if (pal == "allColors") {
+      modifyPointer(palette, allColors);
+      numColors = sizeof(allColors)/sizeof(allColors[0]);
     }
   }
   return true;
@@ -721,6 +736,7 @@ void solidColor(byte r, byte g, byte b, byte w) {
   for (int strip = 0; strip < NUM_STRIPS; strip++) {
     Strips[strip].show();
   }
+  delay(1000);
 }
 
 
@@ -759,6 +775,11 @@ uint8_t *pixel_buffer;
 
 void setup() {
   delay(1000); //wait for chip to settle
+  //trying some mumbo jumbo to fix watchdog resets
+  ESP.wdtDisable();
+  ESP.wdtEnable(WDTO_8S);
+
+  
   for (int i = 0; i<NUM_STRIPS*NUM_PIXELS; i++) { //initialize the pixel state array 
     int strip = i/NUM_PIXELS;
     pixels[i].setStrip(strip);
@@ -823,19 +844,26 @@ void setup() {
 
 /********************************** MAIN LOOP ****************************************/
 void loop() {
+  ESP.wdtFeed();
   /* KEEP WIFI, TELNET, AND MQTT RUNNING */
   if (!client.connected()) {
     reconnect();
   }
   if (WiFi.status() != WL_CONNECTED) {
     delay(1);
-    Telnet.print("WIFI Disconnected. Attempting reconnection.");
+    Serial.print("WIFI Disconnected. Attempting reconnection.");
     setup_wifi();
-    return;
+    //return;
   }
   client.loop();
   ArduinoOTA.handle();
   handleTelnet();
+  /*
+  if (millis() - lastMem > 2000) {
+    Telnet.printf("settings heap size: %u\n", ESP.getFreeHeap()); 
+    lastMem = millis();
+  }
+  */
   /* DO LIGHTS */
   if (stateOn == false) {
     solidColor(0, 0, 0, 0);
