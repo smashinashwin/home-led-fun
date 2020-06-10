@@ -1,26 +1,12 @@
 /*
  * to-dos:
- * as of 5/18
+ * as of 6/10/20
  * 1. make fastled-like palette gen function better
- * 2. incorporate states for the pixels.
- * 3. test - do we need to store pixel state or should we fetch it with this new fast processor? Big refactor tho.
- * 4. new patterns; set good defaults for the existing ones.
- * 5. Make random randomer with a seed 
- * 6. Finish twinkle stars so that it actually just randomly has x% on. also make that MQTTable
- * DONE 7. embers is too fast with new controller need to sloooow it down 
- * DONE 8. abstract the passwords out
- * DONE 9. make solid patterns
- * DONE 10. make an off pattern 
- * 11. slow color fades
- * 12. Combine the gltter and ember dim and brighten functions - check out perf w/ esp
- * 13. I'm doing something wrong with brightness - need to be more deliberate about setting a brightness when calling setColor. Otherwise we are always setting the same 'brightness'
- * 14. work around wifi and rpi stability issues.
- *    - (different wifi lib? better retry methods? 
- *    - fast-restart the lamp & store existing settings in memory? 
- *    - defailt back to a better dumb mode? Start in off state so it never wakes me up?)
- * 15. MQTT front-end; buttons, color wheel, etc. Android app?
- * 16. Access neopixel array
- * 17. remove prints / move to debug 
+ * 2. test - do we need to store pixel state or should we fetch it with this new fast processor? Big refactor tho.
+ * 3. Make random randomer with a seed 
+ * 4. MQTT front-end; buttons, color wheel, etc. Android app?
+ * 5. remove prints / move to debug 
+ * 6. new patterns - chase, shooting star, blended colors, fix twinkling stars, slow color fades
 */
 
 #include <Arduino.h>
@@ -84,13 +70,14 @@ unsigned long lastMem = 0;
 
 
 /* FOR OTA */
-#define SENSORNAME "lampesp8266" 
-#define OTApassword "password" 
+const char* LIGHTNAME = LIGHT;
+const char* OTApassword = OTApass;
 int OTAport = 8266;
 
 /* MQTT TOPICS */
 const char* light_state_topic = "lamp/state"; 
 const char* light_pattern_topic = "lamp/pattern";
+const char* light_ack_topic = "lamp/ack";
 
 /*FOR JSON */
 const int BUFFER_SIZE = JSON_OBJECT_SIZE(10);
@@ -157,24 +144,26 @@ bool stateOn = true;
 
 byte chanceOfGlitter = 200; //pair a higher number with slower delays for a candel-ey effect
 float starBrightness = 1.0; // 0 to 1 please
-byte glitterDelayMax =  15; //longer is slower glitter. 5 is glittery. 20 is fireworky. 100 is like a candle
-byte glitterDelayMin =  4; 
+byte glitterDimDelayMax =  15; //longer is slower glitter. 5 is glittery. 20 is fireworky. 100 is like a candle
+byte glitterDimDelayMin =  4; 
 byte glitterDimMax = 50;
 byte glitterDimMin = 3;
-byte glitterBrightenDelay = 0;
+byte glitterBrightenDelayMin = 0;
+byte glitterBrightenDelayMax = 0;
 
 byte emberDelayMin = 0;
-byte emberDelayMax = 15;
+byte emberDelayMax = 0;
 byte emberBrightenMin = 1;
-byte emberBrightenMax = 3;
-byte emberDimMin = 5;
-byte emberDimMax = 16;
-byte emberBrightnessTriggerMin = 180; 
+byte emberBrightenMax = 5;
+byte emberDimMin = 1;
+byte emberDimMax = 5;
+byte emberBrightnessTriggerMin = 220; 
+byte emberBrightnessTriggerMax = 255; 
 
-byte solidColorRed = 0;
-byte solidColorGreen = 0;
-byte solidColorBlue = 0;
-byte solidColorWhite = 0;
+byte solidColorRed = 255;
+byte solidColorGreen = 50;
+byte solidColorBlue = 155;
+byte solidColorWhite = 255;
 
 //size of the palette array. auto updated when you update the palette.
 int numColors = 10;
@@ -182,7 +171,7 @@ int numColors = 10;
 uint32_t *palette = allStars;
 
 /* WHICH pattern */
-// 0 = EMBER; 1 = GLITTER; 2 = TWINKLE
+// 0 = EMBER; 1 = GLITTER; 2 = TWINKLE 3 = SOLID, 4 = ember + glitter
 byte pattern = 0;
 
 /****************************** WIFI, TELNET, AND MQTT FUNCTIONS *******************/
@@ -222,36 +211,25 @@ void handleTelnet() {
   }
 }
 
-
 void reconnect() { //reconnect to the MQTT server
-  // Loop until we're reconnected
-  // since this is usually cause the rpi is disconnected, it's not going to resolve.
-  //need to handle that case better.
-  int attempts = 0;
-  for (int attempts = 0; attempts < MAX_ATTEMPTS; attempts ++) {
-    while (!client.connected()) {
-      Telnet.print("Attempting MQTT connection...");
-      // Attempt to connect
-      if (client.connect(SENSORNAME, mqtt_username, mqtt_password)) {
-        Telnet.println("connected");
-        client.subscribe(light_pattern_topic);
-        client.subscribe(light_state_topic);
-      } else {
-        Telnet.print("failed, rc=");
-        Telnet.print(client.state());
-        Telnet.println(" try again in 5 seconds");
-        // Wait 5 seconds before retrying
-        delay(5000);
-      }
-    }    
-  }
+  while (!client.connected()) {
+    Telnet.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect(LIGHTNAME, mqtt_username, mqtt_password)) {
+      Telnet.println("connected");
+      client.subscribe(light_pattern_topic);
+      client.subscribe(light_state_topic);
+    } else {
+      Telnet.print("failed, rc=");
+      Telnet.print(client.state());
+      Telnet.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }    
 }
 
-//choose a function based on the topic
-//send state back (not yet implemented)
-//may need that for homeassistant
-//fails silently with long messages (that are still <512 bytes.) WHY? WHYYYY. Other MQTT clients can see the message. 
-void callback(char* topic, byte* payload, unsigned int length) {
+void callback(char* topic, byte* payload, unsigned int length) { //choose a function based on the topic and send state back (not yet implemented)
   Telnet.print("Message arrived [");
   Telnet.print(topic);
   Telnet.print("] ");
@@ -279,31 +257,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
   //or escape characters or add to a string or something. lazy.
   //would be good for debugging over wifi; getting accurate state / telling the server its settings
   
-  client.publish("esp8266/ack", message, true);
+  client.publish(light_ack_topic, message, true);
 }
 
-//under development, would be useful for debugging json parsing errors.
-void sendState() {
+void sendState() { //under development, would be useful for debugging json parsing errors.
   StaticJsonDocument<BUFFER_SIZE> jsonBuffer;
   serializeJson(jsonBuffer, Serial);
 //  client.publish(light_state_topic, buffer, true);
 }
 
-
-//right now sending literally anything to this topic will turn the lamp on or off.
-//meaning the lamp initializes off.
-//set it to a specific message 
-bool setState() {
+bool setState() { //right now sending literally anything to this topic will turn the lamp on or off.
   stateOn = !stateOn;
   return true;
 }
 
-
-//change the color palette
-void modifyPointer(uint32_t *&pp, uint32_t pointee[]) {
+void modifyPointer(uint32_t *&pp, uint32_t pointee[]) { //change the color palette
     pp = pointee;
 }
-
 
 bool patternJson(char* message) {
   StaticJsonDocument<BUFFER_SIZE> jsonBuffer;
@@ -331,16 +301,12 @@ bool patternJson(char* message) {
     chanceOfGlitter = (int)jsonBuffer["chanceOfGlitter"];
   }
   
-  if (jsonBuffer.containsKey("starBrightness")) {
-    starBrightness = (float)jsonBuffer["starBrightness"];
+  if (jsonBuffer.containsKey("glitterDimDelayMax")) {
+    glitterDimDelayMax = (int)jsonBuffer["glitterDimDelayMax"];
   }
   
-  if (jsonBuffer.containsKey("glitterDelayMax")) {
-    glitterDelayMax = (int)jsonBuffer["glitterDelayMax"];
-  }
-  
-  if (jsonBuffer.containsKey("glitterDelayMin")) {
-    glitterDelayMin = (int)jsonBuffer["glitterDelayMin"];
+  if (jsonBuffer.containsKey("glitterDimDelayMin")) {
+    glitterDimDelayMin = (int)jsonBuffer["glitterDimDelayMin"];
   }
 
   if (jsonBuffer.containsKey("glitterDimMax")) {
@@ -351,18 +317,17 @@ bool patternJson(char* message) {
     glitterDimMin = (int)jsonBuffer["glitterDimMin"];
   }
   
-  if (jsonBuffer.containsKey("glitterBrightenDelay")) {
-    glitterBrightenDelay = (int)jsonBuffer["glitterBrightenDelay"];
+  if (jsonBuffer.containsKey("glitterBrightenDelayMin")) {
+    glitterBrightenDelayMin = (int)jsonBuffer["glitterBrightenDelayMin"];
   }
   
-  if (jsonBuffer.containsKey("numColors")) {
-    numColors = (int)jsonBuffer["numColors"];
+  if (jsonBuffer.containsKey("glitterBrightenDelayMax")) {
+    glitterBrightenDelayMin = (int)jsonBuffer["glitterBrightenDelayMax"];
   }
   
   if (jsonBuffer.containsKey("emberDelayMin")) {
     emberDelayMin = (byte)jsonBuffer["emberDelayMin"];
   }
-
 
   if (jsonBuffer.containsKey("emberDelayMax")) {
     emberDelayMax = (byte)jsonBuffer["emberDelayMax"];
@@ -386,6 +351,15 @@ bool patternJson(char* message) {
   
   if (jsonBuffer.containsKey("emberBrightnessTriggerMin")) {
     emberBrightnessTriggerMin = (byte)jsonBuffer["emberBrightnessTriggerMin"];
+  }
+
+  
+  if (jsonBuffer.containsKey("emberBrightnessTriggerMax")) {
+    emberBrightnessTriggerMax = (byte)jsonBuffer["emberBrightnessTriggerMax"];
+  }
+  
+  if (jsonBuffer.containsKey("starBrightness")) {
+    starBrightness = (float)jsonBuffer["starBrightness"];
   }
   
   if (jsonBuffer.containsKey("palette")) {
@@ -426,18 +400,6 @@ bool patternJson(char* message) {
   return true;
 }
 
-//STATES OF PIXELS
-//May get implemented if i refactor for more control.
-/*
-int OFF = 0;
-int BRIGHTENING = 1;
-int FLUTTERING = 2;
-int DIMMING = 3;
-
-int MIN_PIXELS_OFF = 7;
-int num_pixels_off = 0;
-*/
-
 /****************************** PIXEL CLASS FOR SMARTER CONTROL ***********************/
 //saving the state of every pixel in order to:
 //not have to poll the pixel for its color (slow)
@@ -460,7 +422,8 @@ class PixelState {
 
   uint32_t initialColor;
   unsigned long lastEmber;
-  unsigned long lastGlitter;
+  unsigned long lastGlitterBrighten;
+  unsigned long lastGlitterDim;
   
    
   public:
@@ -477,7 +440,8 @@ class PixelState {
     initialGreen;
     initialBlue;
     lastEmber = 0;
-    lastGlitter = 0;
+    lastGlitterBrighten = 0;
+    lastGlitterDim = 0;
     
   }
   
@@ -533,7 +497,7 @@ class PixelState {
   }
 */
   void ember() {
-    if (maxBrightness > random(emberBrightnessTriggerMin, 256)) {
+    if (maxBrightness > random(emberBrightnessTriggerMin, emberBrightnessTriggerMax)) {
       emberDim();
     }
     else {
@@ -543,16 +507,13 @@ class PixelState {
 
   }
 
-  //glitter brighten
-  void brighten() {
-    if (millis() - glitterBrightenDelay > lastGlitter) {
+  
+  void brighten() { //glitter brighten
+    if (millis() - random(glitterBrightenDelayMin, glitterBrightenDelayMax) > lastGlitterBrighten) {
       if (color == 0 ) {
         setColor();
         maxBrightness = 0;
       }
-  
-      //Ember: random(1,20);
-      //Glitter: 1
       for (int i = 0; i < 255; i++) {
         if (brightness == 255) {
           break;
@@ -566,20 +527,15 @@ class PixelState {
         Strips[strip].setPixelColor(pixel, color);
         maxBrightness = max(brightness, maxBrightness);
       }
-      lastGlitter = millis();    
+      lastGlitterBrighten = millis();    
     }
     /*
     */
     return;
   }
 
-  //glitter dim
-  // this also works kind of choppily. 
-  // it might be hard to not choppy it, because we're using non blocking asynchronous
-  // single-step dimmings. We could do like 5 iterations on the pixel before moving on.
-  // again, sine wave, and gamma adjustments
-  void dim() {
-    if (millis() - random(glitterDelayMin, glitterDelayMax) > lastGlitter) {
+  void dim() { // glitter dim. again, sine wave, and gamma adjustments
+    if (millis() - random(glitterDimDelayMin, glitterDimDelayMax) > lastGlitterDim) {
       if (color != 0) {
         brightness = max(0, brightness - random(glitterDimMin, glitterDimMin));
         int gammaBrightness = pgm_read_byte(&gamma8[brightness]);  
@@ -596,7 +552,7 @@ class PixelState {
           brightness = 0;
         }
       }
-      lastGlitter = millis();
+      lastGlitterDim = millis();
     }
   }
 
@@ -663,11 +619,8 @@ void ember() {
   }
 }
 
-//stars pattern: 
-//Pick a random 30% of LEDS. Make them twinkle. Keep them dim. Cycle which 30% are going based on a timer.
-void twinkleStars() {
+void twinkleStars() { //stars pattern:  //Pick a random 30% of LEDS. Make them twinkle. Keep them dim. Cycle which 30% are going based on a timer.
   for (int pixel = 0; pixel < TOTAL_PIXELS*starBrightness; pixel++) {
-    
     //if off
     if (pixels[pixel].getState() == 0) {
       pixels[pixel].setColor();
@@ -724,7 +677,6 @@ void glitter() {
   
 }
 
-
 void solidColor(byte r, byte g, byte b, byte w) {
   uint32_t c = Adafruit_NeoPixel::Color(r, g, b, w);
   for (int pixel = 0; pixel < NUM_STRIPS*NUM_PIXELS; pixel++) {
@@ -740,9 +692,7 @@ void solidColor(byte r, byte g, byte b, byte w) {
 }
 
 
-
-//beta. Working on a way to create palettes fastled-style. It currently kinda works
-uint32_t *palette_gen() {
+uint32_t *palette_gen() { //beta. Working on a way to create palettes fastled-style. It currently kinda works
   static uint32_t p[255];
   for (int i = 0; i < 128; i++) {
     byte red = map(i, 0, 128, 0, 255);
@@ -766,18 +716,14 @@ uint32_t *palette_gen() {
 //224,   255,255,  0,   //bright yellow
 //255,   255,255,255 }; //full white
 }
-uint32_t *p;
-
-uint8_t *pixel_buffer;
+//uint32_t *p;
  
-
 /********************************** START SETUP*****************************************/
 
 void setup() {
   delay(1000); //wait for chip to settle
-  //trying some mumbo jumbo to fix watchdog resets
   ESP.wdtDisable();
-  ESP.wdtEnable(WDTO_8S);
+  ESP.wdtEnable(WDTO_8S); //fixing watchdog resets
 
   
   for (int i = 0; i<NUM_STRIPS*NUM_PIXELS; i++) { //initialize the pixel state array 
@@ -800,9 +746,8 @@ void setup() {
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
 
-  //OTA SETUP
-  ArduinoOTA.setPort(OTAport);
-  ArduinoOTA.setHostname(SENSORNAME);
+  ArduinoOTA.setPort(OTAport); //OTA SETUP
+  ArduinoOTA.setHostname(LIGHTNAME);
   ArduinoOTA.setPassword((const char *)OTApassword);
 
   ArduinoOTA.onStart([]() {
