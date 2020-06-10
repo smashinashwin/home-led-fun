@@ -21,8 +21,7 @@
 
 /************ MUMBO-JUMBO! ******************/
 
-/* some chips don't have these fxns defined */
-#ifndef min
+#ifndef min /* some chips don't have these fxns defined */
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #endif
 #ifndef max
@@ -40,7 +39,6 @@ extern "C" {
 #include "user_interface.h"
 }
 
-
 int freeMemory() {
   char top;
 #ifdef __arm__
@@ -51,7 +49,6 @@ int freeMemory() {
   return __brkval ? &top - __brkval : &top - __malloc_heap_start;
 #endif  // __arm__
 }
-
 
 /************************* GLOBALS *****************************************************/
 /* WIFI and MQTT Information */
@@ -67,7 +64,6 @@ PubSubClient client(espClient);
 WiFiServer TelnetServer(23);
 WiFiClient Telnet;
 unsigned long lastMem = 0;
-
 
 /* FOR OTA */
 const char* LIGHTNAME = LIGHT;
@@ -141,7 +137,7 @@ uint32_t allColors[19] = {DarkOrange, Red, RedWhiteWhite, RedWhite, RedRedWhite,
 /* PATTERN PARAMETERS */
 // these are all MQTTABLE
 bool stateOn = true;
-
+//glitter
 byte chanceOfGlitter = 200; //pair a higher number with slower delays for a candel-ey effect
 float starBrightness = 1.0; // 0 to 1 please
 byte glitterDimDelayMax =  15; //longer is slower glitter. 5 is glittery. 20 is fireworky. 100 is like a candle
@@ -151,6 +147,7 @@ byte glitterDimMin = 3;
 byte glitterBrightenDelayMin = 0;
 byte glitterBrightenDelayMax = 0;
 
+//ember
 byte emberDelayMin = 0;
 byte emberDelayMax = 0;
 byte emberBrightenMin = 1;
@@ -165,14 +162,10 @@ byte solidColorGreen = 50;
 byte solidColorBlue = 155;
 byte solidColorWhite = 255;
 
-//size of the palette array. auto updated when you update the palette.
-int numColors = 10;
-//this is the group of colors the pattern will use
-uint32_t *palette = allStars;
+int numColors = 10; //size of the palette array. auto updated when you update the palette.
+uint32_t *palette = allStars; //this is the group of colors the pattern will use
 
-/* WHICH pattern */
-// 0 = EMBER; 1 = GLITTER; 2 = TWINKLE 3 = SOLID, 4 = ember + glitter
-byte pattern = 0;
+byte pattern = 0; // 0 = EMBER; 1 = GLITTER; 2 = TWINKLE 3 = SOLID, 4 = ember + glitter
 
 /****************************** WIFI, TELNET, AND MQTT FUNCTIONS *******************/
 void setup_wifi() {
@@ -229,7 +222,7 @@ void reconnect() { //reconnect to the MQTT server
   }    
 }
 
-void callback(char* topic, byte* payload, unsigned int length) { //choose a function based on the topic and send state back (not yet implemented)
+void callback(char* topic, byte* payload, unsigned int length) { //choose a function based on the topic (done) and send state back (not yet implemented)
   Telnet.print("Message arrived [");
   Telnet.print(topic);
   Telnet.print("] ");
@@ -252,21 +245,17 @@ void callback(char* topic, byte* payload, unsigned int length) { //choose a func
       return;
     }
   }
-  Telnet.println(stateOn);
-  //this isn't wokring correctly. could use arduinojson
-  //or escape characters or add to a string or something. lazy.
-  //would be good for debugging over wifi; getting accurate state / telling the server its settings
-  
-  client.publish(light_ack_topic, message, true);
+  Telnet.println(stateOn);  
+  client.publish(light_ack_topic, message, true); //need to make the message jsonable
 }
 
-void sendState() { //under development, would be useful for debugging json parsing errors.
+void sendState() { //under development; would be useful for debugging json parsing errors.
   StaticJsonDocument<BUFFER_SIZE> jsonBuffer;
   serializeJson(jsonBuffer, Serial);
-//  client.publish(light_state_topic, buffer, true);
+//  client.publish(light_ack_topic, buffer, true);
 }
 
-bool setState() { //right now sending literally anything to this topic will turn the lamp on or off.
+bool setState() { //sending literally anything to this topic will turn the lamp on or off.
   stateOn = !stateOn;
   return true;
 }
@@ -627,14 +616,12 @@ void twinkleStars() { //stars pattern:  //Pick a random 30% of LEDS. Make them t
       pixels[pixel].setState(1);
       pixels[pixel].setBright(random(30, 100)); 
     }
-
     else if (pixels[pixel].getState() == 1) {
       pixels[pixel].brighten(); 
       if (pixels[pixel].getBright() > random(150, 200)) {
         pixels[pixel].setState(3);
       }
     }
-
     else if (pixels[pixel].getState() == 3) {
       pixels[pixel].dim();
       if (pixels[pixel].getBright() < random(30, 50)) {
@@ -645,36 +632,24 @@ void twinkleStars() { //stars pattern:  //Pick a random 30% of LEDS. Make them t
   for (int strip = 0; strip < NUM_STRIPS; strip++) {
     Strips[strip].show();
   }
-
 }
 
 void glitter() {
   for (int pixel = 0; pixel < NUM_STRIPS*NUM_PIXELS; pixel++) {
-    //get each pixel's state, and call the correct function based on its state.
-    //update ember shouldn't run a loop- this is the loop.
-    //update ember should just pick fadein or dim and run it once. 
-    //don't show the strips in there either, just show after this loop has run.
-
-    //reduce cycles by not dimming pixels that are off.
-    //the if statement shouldn't be performance degrading
-    if (pixels[pixel].getBright() > 0) {
+    if (pixels[pixel].getBright() > 0) { //always dim pixels that are on
       pixels[pixel].dim();      
     }
-
   }
-  if (random(0,255) > chanceOfGlitter) {
+  if (random(0,255) > chanceOfGlitter) { 
     int b = random(20,30);
-    //b = 255;
     int r = random(TOTAL_PIXELS);
     pixels[r].setColor();
     pixels[r].setBright(b);
     pixels[r].brighten();
-    
   }
   for (int strip = 0; strip < NUM_STRIPS; strip++) {
     Strips[strip].show();
   }
-  
 }
 
 void solidColor(byte r, byte g, byte b, byte w) {
@@ -690,7 +665,6 @@ void solidColor(byte r, byte g, byte b, byte w) {
   }
   delay(1000);
 }
-
 
 uint32_t *palette_gen() { //beta. Working on a way to create palettes fastled-style. It currently kinda works
   static uint32_t p[255];
