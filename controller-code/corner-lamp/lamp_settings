@@ -1,0 +1,97 @@
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"pattern":3, "palette": \"allStars\","rgbw":[255,50,155,255]}"
+
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"pattern":3, "palette": \"allStars\","rgbw":[5,2,3,5]}"
+
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"chanceOfGlitter":200, "glitterBrightenDelayMax":1, glitterDimDelayMax:5, "glitterDimDelayMin":0}"
+
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"pattern": 1, "chanceOfGlitter":200, "glitterBrightenDelayMax":1, glitterDimDelayMax:20, "glitterDimDelayMin":0}"
+
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"chanceOfGlitter":200, "glitterBrightenDelayMax":1, glitterDimDelayMax:20, "glitterDimDelayMin":0, "glitterDimMax":20}"
+
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"chanceOfGlitter":200, "glitterBrightenDelayMax":1, glitterDimDelayMax:20, "glitterDimDelayMin":19, "glitterDimMax":100, "glitterDimMin":50}"
+
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"chanceOfGlitter":200, "glitterBrightenDelayMax":1, glitterDimDelayMax:100, "glitterDimDelayMin":50, "glitterDimMax":100, "glitterDimMin":50}"
+
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"pattern":1, "chanceOfGlitter":200, "glitterBrightenDelayMax":1, glitterDimDelayMax:10, "glitterDimDelayMin":1, "glitterDimMax":5, "glitterDimMin":2}"
+
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"pattern":0, "emberDelayMin":0, "emberDelayMax": 15, "emberBrightenMin": 1, "emberBrightenMax": 3, "emberDimMin": 5, "emberDimMax": 16, "emberBrightnessTriggerMin": 180}"
+
+//default
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"pattern":0, "emberDelayMin":0, "emberDelayMax": 15, "emberBrightenMin": 1, "emberBrightenMax": 3, "emberDimMin": 5, "emberDimMax": 16, "emberBrightnessTriggerMin": 240}"
+
+//very slow
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"pattern":0, 
+"emberDelayMin":1, 
+"emberDelayMax": 15, 
+"emberBrightenMin": 1, 
+"emberBrightenMax": 3, 
+"emberDimMin": 1, 
+"emberDimMax": 2, 
+"emberBrightnessTriggerMin": 240,
+"palette": \"fireColors\"}"
+
+
+//slow but smooth
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"pattern":0, 
+"emberDelayMin":0, 
+"emberDelayMax": 0, 
+"emberBrightenMin": 1, 
+"emberBrightenMax": 2, 
+"emberDimMin": 1, 
+"emberDimMax": 3, 
+"emberBrightnessTriggerMin": 240,
+"palette": \"aurora\"}"
+
+//a little faster; some irritating flicker.
+//that comes from dimming too fast. Need a parameter just for dimspeed
+
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"pattern":0, 
+"emberDelayMin":0, 
+"emberDelayMax": 0, 
+"emberBrightenMin": 1, 
+"emberBrightenMax": 5, 
+"emberDimMin": 1, 
+"emberDimMax": 6, 
+"emberBrightnessTriggerMin": 220,
+"palette": \"allStars\"}"
+
+//could be a new default
+mosquitto_pub -d -u bashwin -P Foyatgam7! -t "lamp/pattern" -m "{"pattern":0, 
+"emberDelayMin":0, 
+"emberDelayMax": 0, 
+"emberBrightenMin": 1, 
+"emberBrightenMax": 5, 
+"emberDimMin": 1, 
+"emberDimMax": 5, 
+"emberBrightnessTriggerMin": 220,
+"palette": \"fireColors\"}"
+
+
+
+byte chanceOfGlitter = 200; //pair a higher number with slower delays for a candel-ey effect
+float starBrightness = 1.0; // 0 to 1 please
+byte glitterDelayMax =  15; //longer is slower glitter. 5 is glittery. 20 is fireworky. 100 is like a candle
+byte glitterDelayMin =  4; 
+byte glitterDimMax = 50;
+byte glitterDimMin = 3;
+byte glitterBrightenDelay = 0;
+
+byte emberDelayMin = 0;
+byte emberDelayMax = 15;
+byte emberBrightenMin = 1;
+byte emberBrightenMax = 3;
+byte emberDimMin = 5;
+byte emberDimMax = 16;
+byte emberBrightnessTriggerMin = 180; 
+
+
+const uint32_t StarWhite0 = Adafruit_NeoPixel::Color(0,0,150,255);
+const uint32_t StarWhite1 = Adafruit_NeoPixel::Color(0,70,150,255);
+const uint32_t StarWhite2 = Adafruit_NeoPixel::Color(20,0,50,255);
+const uint32_t StarWhite3 = Adafruit_NeoPixel::Color(0,0,70,255);
+const uint32_t StarWhite4 = Adafruit_NeoPixel::Color(0,20,20,255);
+const uint32_t StarWhite5 = Adafruit_NeoPixel::Color(0,0,255,255);
+const uint32_t StarWhite6 = Adafruit_NeoPixel::Color(0,140,255,255);
+const uint32_t StarWhite7 = Adafruit_NeoPixel::Color(80,0,160,255);
+const uint32_t StarWhite8 = Adafruit_NeoPixel::Color(0,0,145,255);
+const uint32_t StarWhite9 = Adafruit_NeoPixel::Color(0,100,100,255);
