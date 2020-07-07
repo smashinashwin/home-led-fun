@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="lightParams" type="com.example.lights.data.LightParams"/>
+    </data>
+
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/checkbox_grp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.selector.SelectorFragment"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/lamp_check"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lamp" />
+
+        <CheckBox
+            android:id="@+id/door_check"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/door" />
+
+        <CheckBox
+            android:id="@+id/window_check"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/window" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/checkbox_grp"
+        android:orientation="horizontal">
+        --pallete selector
+        <TextView
+            android:id="@+id/palette_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@string/palette"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+        <Spinner
+            android:id="@+id/palette_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/palette_selector"
+            app:layout_constraintEnd_toStartOf="@+id/palette_selector"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toEndOf="@+id/palette_selector"
+            app:layout_constraintTop_toTopOf="@+id/palette_selector"
+            />
+    </LinearLayout>
+</RelativeLayout>
+</layout>

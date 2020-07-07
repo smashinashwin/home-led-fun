@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_ember">
+
+    <fragment
+        android:id="@+id/navigation_pattern"
+        android:name="com.example.lights.ui.pattern.PatternFragment"
+        android:label="@string/title_pattern"
+        tools:layout="@layout/fragment_pattern" >
+        <action
+            android:id="@+id/action_navigation_pattern_to_navigation_ember"
+            app:destination="@id/navigation_ember" />
+        <action
+            android:id="@+id/action_navigation_pattern_to_navigation_glitter"
+            app:destination="@id/navigation_glitter" />
+        <action
+            android:id="@+id/action_navigation_pattern_to_navigation_solid"
+            app:destination="@id/navigation_solid" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_solid"
+        android:name="com.example.lights.ui.solid.SolidFragment"
+        android:label="@string/title_solid"
+        tools:layout="@layout/fragment_solid" />
+
+    <fragment
+        android:id="@+id/navigation_ember"
+        android:name="com.example.lights.ui.ember.EmberFragment"
+        android:label="@string/title_ember"
+        tools:layout="@layout/fragment_ember" />
+
+    <fragment
+        android:id="@+id/navigation_glitter"
+        android:name="com.example.lights.ui.glitter.GlitterFragment"
+        android:label="@string/title_glitter"
+        tools:layout="@layout/fragment_glitter" />
+
+    <fragment
+        android:id="@+id/navigation_selector"
+        android:name="com.example.lights.ui.selector.SelectorFragment"
+        android:label="Selector"
+        tools:layout="@layout/fragment_selector" />
+</navigation>

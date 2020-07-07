@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Lights</string>
+    <string name="title_home">Home</string>
+    <string name="title_pattern">Pattern</string>
+    <string name="title_solid">Solid Color</string>
+    <string name="power">Power</string>
+    <string name="title_ember">Ember</string>
+    <string name="title_glitter">Glitter</string>
+    <string name="window">Window</string>
+    <string name="door">Door</string>
+    <string name="lamp">Lamp</string>
+    <string name="palette">Palette</string>
+
+
+    <string-array name="palette_array">
+        <item>fireColors</item>
+        <item>aurora</item>
+        <item>redGlitter</item>
+        <item>blueGlitter</item>
+        <item>stars</item>
+        <item>allStars</item>
+        <item>girly</item>
+        <item>allColors</item>
+    </string-array>
+</resources>
