@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="emberParams"
+            type="com.leds.lightcontroller.data.EmberParams" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.ember.EmberFragment">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@id/navigation_selector"
+            android:name="com.leds.lightcontroller.ui.selector.SelectorFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/ember_delay_min"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        --ember delay min
+
+        <TextView
+            android:id="@+id/ember_delay_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="emberDelayMin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/navigation_selector"
+            tools:layout_editor_absoluteY="89dp" />
+
+        <TextView
+            android:id="@+id/ember_delay_min_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{emberParams.emberDelayMin + " / 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/ember_delay_min"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ember_delay_min"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/ember_delay_min_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{emberParams.emberDelayMin}"
+            app:layout_constraintBottom_toBottomOf="@+id/ember_delay_min"
+            app:layout_constraintEnd_toStartOf="@+id/ember_delay_min_val"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toEndOf="@+id/ember_delay_min"
+            app:layout_constraintTop_toTopOf="@+id/ember_delay_min" />
+
+        --ember delay max
+
+        <TextView
+            android:id="@+id/ember_delay_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="emberDelayMax"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ember_delay_min" />
+
+        <TextView
+            android:id="@+id/ember_delay_max_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{emberParams.emberDelayMax +"/ 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/ember_delay_max"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ember_delay_max"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/ember_delay_max_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress='@{emberParams.emberDelayMax}'
+            app:layout_constraintBottom_toBottomOf="@+id/ember_delay_max"
+            app:layout_constraintEnd_toStartOf="@+id/ember_delay_max_val"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toEndOf="@+id/ember_delay_max"
+            app:layout_constraintTop_toTopOf="@+id/ember_delay_max" />
+
+        --ember brighten min
+
+        <TextView
+            android:id="@+id/ember_brighten_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="emberBrightenMin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ember_delay_max" />
+
+        <TextView
+            android:id="@+id/ember_brighten_min_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{emberParams.emberBrightenMin + "/ 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/ember_brighten_min"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ember_brighten_min"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/ember_brighten_min_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{emberParams.emberBrightenMin}"
+            app:layout_constraintBottom_toBottomOf="@+id/ember_brighten_min"
+            app:layout_constraintEnd_toStartOf="@+id/ember_brighten_min_val"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toEndOf="@+id/ember_brighten_min"
+            app:layout_constraintTop_toTopOf="@+id/ember_brighten_min" />
+
+        --ember brighten max
+
+        <TextView
+            android:id="@+id/ember_brighten_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="emberBrightenMax"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ember_brighten_min" />
+
+        <TextView
+            android:id="@+id/ember_brighten_max_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{emberParams.emberBrightenMax + "/ 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/ember_brighten_max"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ember_brighten_max"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/ember_brighten_max_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{emberParams.emberBrightenMax}"
+            app:layout_constraintBottom_toBottomOf="@+id/ember_brighten_max"
+            app:layout_constraintEnd_toStartOf="@+id/ember_brighten_max_val"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toEndOf="@+id/ember_brighten_max"
+            app:layout_constraintTop_toTopOf="@+id/ember_brighten_max" />
+
+        --ember dim min
+
+        <TextView
+            android:id="@+id/ember_dim_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="emberDimMin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ember_brighten_max" />
+
+        <TextView
+            android:id="@+id/ember_dim_min_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{emberParams.emberDimMin + "/ 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/ember_dim_min"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ember_dim_min"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/ember_dim_min_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{emberParams.emberDimMin}"
+            app:layout_constraintBottom_toBottomOf="@+id/ember_dim_min"
+            app:layout_constraintEnd_toStartOf="@+id/ember_dim_min_val"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toEndOf="@+id/ember_dim_min"
+            app:layout_constraintTop_toTopOf="@+id/ember_dim_min" />
+
+        --ember dim max
+
+        <TextView
+            android:id="@+id/ember_dim_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="emberDimMax"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ember_dim_min" />
+
+        <TextView
+            android:id="@+id/ember_dim_max_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{emberParams.emberDimMax + "/ 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/ember_dim_max"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ember_dim_max"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/ember_dim_max_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{emberParams.emberDimMax}"
+            app:layout_constraintBottom_toBottomOf="@+id/ember_dim_max"
+            app:layout_constraintEnd_toStartOf="@+id/ember_dim_max_val"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toEndOf="@+id/ember_dim_max"
+            app:layout_constraintTop_toTopOf="@+id/ember_dim_max" />
+
+        --ember brightness trigger min
+
+        <TextView
+            android:id="@+id/ember_brightness_trigger_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="emberBrightnessTriggerMin"
+            android:textSize="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ember_dim_max" />
+
+        <TextView
+            android:id="@+id/ember_brightness_trigger_min_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{emberParams.emberBrightnessTriggerMin + "/ 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/ember_brightness_trigger_min"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ember_brightness_trigger_min"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/ember_brightness_trigger_min_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{emberParams.emberBrightnessTriggerMin}"
+            app:layout_constraintBottom_toBottomOf="@+id/ember_brightness_trigger_min"
+            app:layout_constraintEnd_toStartOf="@+id/ember_brightness_trigger_min_val"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toEndOf="@+id/ember_brightness_trigger_min"
+            app:layout_constraintTop_toTopOf="@+id/ember_brightness_trigger_min" />
+
+
+        --ember brightness trigger max
+
+        <TextView
+            android:id="@+id/ember_brightness_trigger_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="20dp"
+            android:text="emberBrightnessTriggerMax"
+            android:textSize="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ember_brightness_trigger_min" />
+
+        <TextView
+            android:id="@+id/ember_brightness_trigger_max_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{emberParams.emberBrightnessTriggerMax + "/ 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/ember_brightness_trigger_max"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ember_brightness_trigger_max"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/ember_brightness_trigger_max_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{emberParams.emberBrightnessTriggerMax}"
+            app:layout_constraintBottom_toBottomOf="@+id/ember_brightness_trigger_max"
+            app:layout_constraintEnd_toStartOf="@+id/ember_brightness_trigger_max_val"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toEndOf="@+id/ember_brightness_trigger_max"
+            app:layout_constraintTop_toTopOf="@+id/ember_brightness_trigger_max" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
