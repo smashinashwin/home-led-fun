@@ -7,13 +7,13 @@
 
         <variable
             name="glitterParams"
-            type="com.example.lights.data.GlitterParams" />
+            type="com.leds.lightcontroller.data.GlitterParams" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.glitter2.GlitterFragment2">
+        tools:context=".ui.glitter.GlitterFragment">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@id/navigation_selector"

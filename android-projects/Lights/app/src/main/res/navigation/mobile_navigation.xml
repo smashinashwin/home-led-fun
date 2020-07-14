@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_pattern"
-        android:name="com.example.lights.ui.pattern.PatternFragment"
+        android:name="com.leds.lightcontroller.ui.pattern.PatternFragment"
         android:label="@string/title_pattern"
         tools:layout="@layout/fragment_pattern" >
         <action
@@ -23,25 +23,25 @@
 
     <fragment
         android:id="@+id/navigation_solid"
-        android:name="com.example.lights.ui.solid.SolidFragment"
+        android:name="com.leds.lightcontroller.ui.solid.SolidFragment"
         android:label="@string/title_solid"
         tools:layout="@layout/fragment_solid" />
 
     <fragment
         android:id="@+id/navigation_ember"
-        android:name="com.example.lights.ui.ember.EmberFragment"
+        android:name="com.leds.lightcontroller.ui.ember.EmberFragment"
         android:label="@string/title_ember"
         tools:layout="@layout/fragment_ember" />
 
     <fragment
         android:id="@+id/navigation_glitter"
-        android:name="com.example.lights.ui.glitter.GlitterFragment"
+        android:name="com.leds.lightcontroller.ui.glitter.GlitterFragment"
         android:label="@string/title_glitter"
         tools:layout="@layout/fragment_glitter" />
 
     <fragment
         android:id="@+id/navigation_selector"
-        android:name="com.example.lights.ui.selector.SelectorFragment"
+        android:name="com.leds.lightcontroller.ui.selector.SelectorFragment"
         android:label="Selector"
         tools:layout="@layout/fragment_selector" />
 </navigation>

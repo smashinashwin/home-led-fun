@@ -2,13 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_ember"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_outline_fireplace_24"
         android:title="@string/title_ember"
         />
 
     <item
         android:id="@+id/navigation_glitter"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_outline_scatter_plot_24"
         android:title="@string/title_glitter" />
 
+    <item
+        android:id="@+id/navigation_solid"
+        android:icon="@drawable/ic_solid"
+        android:title="@string/title_solid" />
 </menu>
