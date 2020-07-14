@@ -37,19 +37,19 @@ class GlitterFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
         //this should be done in the selector fragment view model.
         //need to figure out how that wires up
-        mainActivity.updatePattern(1)
+        mainActivity.mqttClient.send(mainActivity.lightParams.lightTopic, 0, "pattern", "1")
         this.addListenersToSliders(binding)
         return binding.root
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        viewModel.setGlitterParams(seekBar, binding, mainActivity.mqttClient)
+        viewModel.setGlitterParams(seekBar, binding, mainActivity.mqttClient, mainActivity.lightParams)
     }
 
     override fun onStartTrackingTouch(p0: SeekBar?) = Unit
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        viewModel.setGlitterParams(seekBar, binding, mainActivity.mqttClient)
+        viewModel.setGlitterParams(seekBar, binding, mainActivity.mqttClient, mainActivity.lightParams)
     }
 
     private fun addListenersToSliders(binding: FragmentGlitterBinding) {

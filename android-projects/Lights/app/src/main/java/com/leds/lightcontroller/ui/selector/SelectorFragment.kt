@@ -88,19 +88,9 @@ class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
         lightParams.palette = paletteArray.get(p2)
         binding.invalidateAll()
         Log.i("selectorfragment", lightParams.palette)
-        mainActivity.updatePalette(lightParams.palette)
+        mainActivity.mqttClient.send(lightParams.lightTopic, 0, "palette", lightParams.palette)
     }
-    fun updatePattern(mqttParams: MqttParams, mqttClient: MqttAndroidClient, pattern: Int) {
-        val msg = MqttMessage()
-        val payloadString = "{\"pattern\":$pattern}"
-        msg.payload = payloadString.toByteArray()
-        val topic = "${mqttParams.lightTopic}/${mqttParams.patternTopic}"
-        if (mqttClient.isConnected()) {
-            mqttClient.publish(topic, msg)
-            Log.i("patternchange", "sent successfully")
-        }
-        Log.i("patternchange", "unsuccessful")
 
-    }
+    //should there also be a pattern selector here?
 
 }

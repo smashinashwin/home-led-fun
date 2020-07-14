@@ -3,7 +3,9 @@ package com.leds.lightcontroller.ui.glitter
 import android.util.Log
 import android.widget.SeekBar
 import androidx.lifecycle.ViewModel
+import com.leds.lightcontroller.MqttAndroidClientWrapper
 import com.leds.lightcontroller.data.GlitterParams
+import com.leds.lightcontroller.data.LightParams
 import com.leds.lightcontroller.data.MqttParams
 import com.leds.lightcontroller.databinding.FragmentGlitterBinding
 import org.eclipse.paho.android.service.MqttAndroidClient
@@ -14,15 +16,7 @@ class GlitterViewModel : ViewModel() {
         Log.i("mur", "moo")
     }
     var glitterParams: GlitterParams = GlitterParams()
-    val mqttParams: MqttParams = MqttParams(
-        password="Foyatgam7!".toCharArray(),
-        username="bashwin",
-        clientId="lightApp",
-        stateTopic="state",
-        patternTopic="pattern",
-        lightTopic="lamp",
-        serverURL="tcp://192.168.0.197")
-    fun setGlitterParams(seekBar: SeekBar?, binding: FragmentGlitterBinding, mqttClient: MqttAndroidClient) {
+    fun setGlitterParams(seekBar: SeekBar?, binding: FragmentGlitterBinding, mqttClient: MqttAndroidClientWrapper, lightParams: LightParams) {
         var glitterParam: String = ""
 
         when (seekBar) {
@@ -57,16 +51,7 @@ class GlitterViewModel : ViewModel() {
         }
         Log.i(seekBar?.id.toString(), seekBar?.progress.toString())
         binding?.invalidateAll()
-        val msg = MqttMessage()
-        val payloadString = "{\"${glitterParam}\":\"${seekBar?.progress}\"}"
-        msg.payload = payloadString.toByteArray()
-        val topic = "${mqttParams.lightTopic}/${mqttParams.patternTopic}"
-        if (mqttClient.isConnected()) {
-            mqttClient.publish(topic, msg)
-            Log.i("glitterParamChange", "sent successfully")
-        }
-
-
+        mqttClient.send(lightParams.lightTopic, 0, glitterParam, seekBar?.progress.toString())
     }
 
 }

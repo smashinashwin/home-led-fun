@@ -37,20 +37,19 @@ class EmberFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
         //this should be done in the selector fragment view model.
         //need to figure out how that wires up
-        mainActivity.updatePattern(0)
+        mainActivity.mqttClient.send(mainActivity.lightParams.lightTopic, 0, "pattern", "0")
         this.addListenersToSliders(binding)
-
         return binding.root
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        viewModel.setEmberParams(seekBar, binding, mainActivity.mqttClient)
+        viewModel.setEmberParams(seekBar, binding, mainActivity.mqttClient, mainActivity.lightParams)
     }
 
     override fun onStartTrackingTouch(p0: SeekBar?) = Unit
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        viewModel.setEmberParams(seekBar, binding, mainActivity.mqttClient)
+        viewModel.setEmberParams(seekBar, binding, mainActivity.mqttClient, mainActivity.lightParams)
     }
 
     private fun addListenersToSliders(binding: FragmentEmberBinding) {
