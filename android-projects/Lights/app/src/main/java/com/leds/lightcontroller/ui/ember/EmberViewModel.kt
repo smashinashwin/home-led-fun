@@ -57,7 +57,6 @@ class EmberViewModel : ViewModel() {
                 emberParam = "emberBrightnessTriggerMax"
             }
         }
-        Log.i(seekBar?.id.toString(), seekBar?.progress.toString())
         binding?.invalidateAll()
         mqttClient.send(lightParams.lightTopic, 0, emberParam, seekBar?.progress.toString())
 

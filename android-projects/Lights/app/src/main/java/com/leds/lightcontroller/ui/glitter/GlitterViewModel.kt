@@ -49,7 +49,6 @@ class GlitterViewModel : ViewModel() {
                 glitterParam = "glitterBrighteDelaynMin"
             }
         }
-        Log.i(seekBar?.id.toString(), seekBar?.progress.toString())
         binding?.invalidateAll()
         mqttClient.send(lightParams.lightTopic, 0, glitterParam, seekBar?.progress.toString())
     }
