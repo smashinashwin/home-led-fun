@@ -28,7 +28,6 @@ class EmberFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //this is where you want to mqtt to the light to activate the ember fragment
         mainActivity = activity as MainActivity
         val model = ViewModelProvider(this)
         viewModel = model.get(EmberViewModel::class.java)

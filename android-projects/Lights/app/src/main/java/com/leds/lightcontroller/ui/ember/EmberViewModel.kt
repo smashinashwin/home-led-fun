@@ -2,17 +2,11 @@ package com.leds.lightcontroller.ui.ember
 
 import android.util.Log
 import android.widget.SeekBar
-import androidx.lifecycle.R
 import androidx.lifecycle.ViewModel
-import com.leds.lightcontroller.MainActivity
 import com.leds.lightcontroller.MqttAndroidClientWrapper
 import com.leds.lightcontroller.data.EmberParams
 import com.leds.lightcontroller.data.LightParams
-import com.leds.lightcontroller.data.MqttParams
 import com.leds.lightcontroller.databinding.FragmentEmberBinding
-import org.eclipse.paho.android.service.MqttAndroidClient
-import org.eclipse.paho.client.mqttv3.MqttMessage
-import java.util.*
 
 class EmberViewModel : ViewModel() {
     init {

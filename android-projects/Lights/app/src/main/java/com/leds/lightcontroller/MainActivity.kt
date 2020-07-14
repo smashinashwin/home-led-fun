@@ -40,14 +40,10 @@ class MainActivity : AppCompatActivity() {
         mqttClient.send(stateOrPattern = 1, parameter = "switch", value = "flip")
 
         if (powerStatus) {
-            //Toast.makeText(this, "power off", Toast.LENGTH_SHORT).show()
-            //powerButton.setBackgroundColor(this.getColor(R.color.colorOff))
             powerButton.backgroundTintList = ColorStateList.valueOf(getColor(R.color.colorOn))
             powerButton.setImageResource(R.drawable.ic_power)
         }
         else {
-            //Toast.makeText(this, "power on", Toast.LENGTH_SHORT).show()
-            //powerButton.setBackgroundColor(this.getColor(R.color.colorOn))
             powerButton.backgroundTintList = ColorStateList.valueOf(getColor(R.color.colorOff))
             powerButton.setImageResource(R.drawable.ic_outline_power_white)
         }

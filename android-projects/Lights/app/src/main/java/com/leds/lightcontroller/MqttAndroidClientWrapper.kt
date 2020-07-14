@@ -19,7 +19,7 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
     private lateinit var mqttParams: MqttParams
     private lateinit var mqttClient: MqttAndroidClient
     private var lastSend: Long = SystemClock.uptimeMillis()
-    private val sendInterval = 15
+    private val sendInterval = 50
 
     private fun loadParams(activity: MainActivity) {
         var reader: InputStream = activity.resources.openRawResource(R.raw._mqttconfig)

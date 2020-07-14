@@ -6,10 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.leds.lightcontroller.MqttAndroidClientWrapper
 import com.leds.lightcontroller.data.GlitterParams
 import com.leds.lightcontroller.data.LightParams
-import com.leds.lightcontroller.data.MqttParams
 import com.leds.lightcontroller.databinding.FragmentGlitterBinding
-import org.eclipse.paho.android.service.MqttAndroidClient
-import org.eclipse.paho.client.mqttv3.MqttMessage
 
 class GlitterViewModel : ViewModel() {
     init {
