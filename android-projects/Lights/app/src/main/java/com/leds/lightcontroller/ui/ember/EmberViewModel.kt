@@ -10,7 +10,6 @@ import com.leds.lightcontroller.databinding.FragmentEmberBinding
 
 class EmberViewModel : ViewModel() {
     init {
-        Log.i("mur", "moo")
     }
     val emberParams: EmberParams = EmberParams()
 
