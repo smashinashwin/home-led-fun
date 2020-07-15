@@ -663,7 +663,6 @@ void solidColor(byte r, byte g, byte b, byte w) {
   for (int strip = 0; strip < NUM_STRIPS; strip++) {
     Strips[strip].show();
   }
-  delay(1000);
 }
 
 uint32_t *palette_gen() { //beta. Working on a way to create palettes fastled-style. It currently kinda works
