@@ -62,7 +62,7 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
         }
     }
 
-    fun send(lightTopic: String=mqttParams.lightTopic, stateOrPattern: Int, parameter: String, value: String) {
+    fun send(lightTopic: String=mqttParams.lightTopic, stateOrPattern: Int, parameter: String, value: Any) {
         if (SystemClock.uptimeMillis() - lastSend > sendInterval) {
             val gson = Gson()
             val functionTopic: String = when (stateOrPattern) {

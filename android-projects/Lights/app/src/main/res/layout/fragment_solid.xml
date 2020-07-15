@@ -22,7 +22,7 @@
             android:layout_marginEnd="32dp"
             android:background="@{solidParams.color}"
             android:text="@{solidParams.colorStr}"
-            android:textAlignment="center"
+            android:gravity="center_vertical|center_horizontal"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,6 +30,176 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0" />
+
+        <TextView
+            android:id="@+id/red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="32dp"
+            android:text="Red"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_solid"
+            tools:layout_editor_absoluteY="89dp" />
+
+        <TextView
+            android:id="@+id/red_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{solidParams.solidColorRed + " / 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/red"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/red_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{solidParams.solidColorRed}"
+            app:layout_constraintBottom_toBottomOf="@+id/red" />
+
+        <TextView
+            android:id="@+id/green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Green"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/red"
+            tools:layout_editor_absoluteY="89dp" />
+
+        <TextView
+            android:id="@+id/green_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{solidParams.solidColorGreen + " / 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/green"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/green_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{solidParams.solidColorGreen}"
+            app:layout_constraintBottom_toBottomOf="@+id/green" />
+
+        <TextView
+            android:id="@+id/blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Blue"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/green"
+            tools:layout_editor_absoluteY="89dp" />
+
+        <TextView
+            android:id="@+id/blue_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{solidParams.solidColorBlue + " / 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/blue"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/blue_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{solidParams.solidColorBlue}"
+            app:layout_constraintBottom_toBottomOf="@+id/blue" />
+
+        <TextView
+            android:id="@+id/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="White"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/blue"
+            tools:layout_editor_absoluteY="89dp" />
+
+        <TextView
+            android:id="@+id/white_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{solidParams.solidColorWhite + " / 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/white"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/white_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{solidParams.solidColorWhite}"
+            app:layout_constraintBottom_toBottomOf="@+id/white" />
+
+        <TextView
+            android:id="@+id/brightness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Bright"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/white"
+            tools:layout_editor_absoluteY="89dp" />
+
+        <TextView
+            android:id="@+id/brightness_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text='@{solidParams.brightness + " / 255"}'
+            app:layout_constraintBottom_toBottomOf="@+id/brightness"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/brightness"
+            tools:text="0 / 255" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/brightness_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:indeterminate="false"
+            android:max="255"
+            android:min="0"
+            android:progress="@{solidParams.brightness}"
+            app:layout_constraintBottom_toBottomOf="@+id/brightness" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
