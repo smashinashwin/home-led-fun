@@ -63,6 +63,10 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
     }
 
     fun send(lightTopic: String=mqttParams.lightTopic, stateOrPattern: Int, parameter: String, value: Any) {
+        //this system clock thing is lazy and can result in unwanted behavior
+        //best to create a queue. while the queue is not empty, keep sending messages.
+        //if a message comes in and the queue is not empty, don't send it. just push it onto the queue.
+        //first in first out
         if (SystemClock.uptimeMillis() - lastSend > sendInterval) {
             val gson = Gson()
             val functionTopic: String = when (stateOrPattern) {
