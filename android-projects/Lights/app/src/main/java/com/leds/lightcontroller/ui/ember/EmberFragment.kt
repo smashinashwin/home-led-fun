@@ -59,7 +59,7 @@ class EmberFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
             binding.emberBrightnessTriggerMinSlider, binding.emberBrightnessTriggerMaxSlider
         )
 
-        for (slider in sliders) slider!!.setOnSeekBarChangeListener(this)
+        for (slider in sliders) slider.setOnSeekBarChangeListener(this)
     }
 }
 

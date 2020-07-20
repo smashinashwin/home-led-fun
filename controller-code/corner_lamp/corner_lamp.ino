@@ -241,7 +241,7 @@ void callback(char* topic, byte* payload, unsigned int length) { //choose a func
     } 
   }
   else if (strcmp(topic,light_state_topic) == 0) {
-    if (!setState()) {
+    if (!stateJson(message)) {
       return;
     }
   }
@@ -262,6 +262,24 @@ bool setState() { //sending literally anything to this topic will turn the lamp 
 
 void modifyPointer(uint32_t *&pp, uint32_t pointee[]) { //change the color palette
     pp = pointee;
+}
+
+bool stateJson(char* message) {
+  StaticJsonDocument<BUFFER_SIZE> jsonBuffer;
+  DeserializationError err = deserializeJson(jsonBuffer, message);
+
+  if (err) {
+    Telnet.println("parseObject() failed");
+    Telnet.println(err.c_str());
+    return false;
+  }
+
+  if (jsonBuffer.containsKey("state")) {
+    stateOn = (bool)(int)jsonBuffer["state"];
+  }
+  Telnet.print("state_change");
+  return true;
+  
 }
 
 bool patternJson(char* message) {
@@ -713,6 +731,7 @@ void setup() {
     Strips[strip].begin();
   }
   Serial.begin(115200); //for logging
+  Serial.println("test test test");
 
 /* WIFI, OTA,  AND MQTT STUFF */
   setup_wifi();

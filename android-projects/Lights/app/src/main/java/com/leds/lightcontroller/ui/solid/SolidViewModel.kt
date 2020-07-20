@@ -55,7 +55,6 @@ class SolidViewModel : ViewModel() {
         }
         binding?.invalidateAll()
         val rgbw = arrayOf<Int>(solidParams.solidColorRed, solidParams.solidColorGreen, solidParams.solidColorBlue, solidParams.solidColorWhite)
-        Log.i("int", Integer.parseInt("FFFFFF", 16).toString())
         mqttClient.send(lightParams.lightTopic, 0, "rgbw", rgbw)
 
     }
