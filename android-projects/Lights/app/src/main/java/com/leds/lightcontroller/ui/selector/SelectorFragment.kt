@@ -65,7 +65,7 @@ class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         spinner.setSelection(startIndex)
 
-        spinner!!.onItemSelectedListener = this
+        spinner.onItemSelectedListener = this
         this.mainActivity = activity as MainActivity
 
 

@@ -63,6 +63,6 @@ class SolidFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
             binding.redSlider, binding.greenSlider, binding.blueSlider, binding.whiteSlider, binding.brightnessSlider
         )
 
-        for (slider in sliders) slider!!.setOnSeekBarChangeListener(this)
+        for (slider in sliders) slider.setOnSeekBarChangeListener(this)
     }
 }
