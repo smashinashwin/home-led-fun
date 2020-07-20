@@ -6,22 +6,6 @@
     app:startDestination="@+id/navigation_ember">
 
     <fragment
-        android:id="@+id/navigation_pattern"
-        android:name="com.leds.lightcontroller.ui.pattern.PatternFragment"
-        android:label="@string/title_pattern"
-        tools:layout="@layout/fragment_pattern" >
-        <action
-            android:id="@+id/action_navigation_pattern_to_navigation_ember"
-            app:destination="@id/navigation_ember" />
-        <action
-            android:id="@+id/action_navigation_pattern_to_navigation_glitter"
-            app:destination="@id/navigation_glitter" />
-        <action
-            android:id="@+id/action_navigation_pattern_to_navigation_solid"
-            app:destination="@id/navigation_solid" />
-    </fragment>
-
-    <fragment
         android:id="@+id/navigation_solid"
         android:name="com.leds.lightcontroller.ui.solid.SolidFragment"
         android:label="@string/title_solid"
