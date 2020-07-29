@@ -1,13 +1,8 @@
 package com.leds.lightcontroller.livedata
 
-import android.os.Parcel
-import android.os.Parcelable
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 
-class EmberParams() : IntParamsLiveData() {
+class EmberParams : IntParamsLiveData() {
 
     override val propertyNames: Array<String> = arrayOf(
         "emberDelayMin",

@@ -1,7 +1,5 @@
 package com.leds.lightcontroller.livedata
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 
 class GlitterParams: IntParamsLiveData() {
