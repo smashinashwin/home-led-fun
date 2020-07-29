@@ -28,9 +28,7 @@ class MainActivity : AppCompatActivity() {
             R.layout.activity_main
         )
         val navController = findNavController(R.id.nav_host_fragment)
-<<<<<<< HEAD
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
-=======
 
         val menu: BottomAppBar = binding.bottomAppBar
 
@@ -40,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         NavigationUI.setupActionBarWithNavController(this, navController)
->>>>>>> 06bfef1ad9dd21b91fc4eeaba229fc7124550412
         NavigationUI.setupWithNavController(binding.navView, navController)
         binding.mainViewModel = viewModel
         binding.lifecycleOwner = this
