@@ -5,297 +5,293 @@
 
     <data>
         <variable
-            name="glitterParams"
-            type="com.leds.lightcontroller.data.GlitterParams" />
+            name="mainViewModel"
+            type="com.leds.lightcontroller.main.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.glitter.GlitterFragment">
+        tools:context=".ui.GlitterFragment"
+        tools:ignore="ExtraText">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@id/navigation_selector"
-            android:name="com.leds.lightcontroller.ui.selector.SelectorFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/chance_of_glitter"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@id/navigation_selector"
+                android:name="com.leds.lightcontroller.ui.SelectorFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/chance_of_glitter"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        --chance of glitter
+            --chance of glitter
+            <TextView
+                android:id="@+id/chance_of_glitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/chanceofglitter"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/navigation_selector"
+                tools:layout_editor_absoluteY="89dp" />
 
-        <TextView
-            android:id="@+id/chance_of_glitter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:text="chanceOfGlitter"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/navigation_selector"
-            tools:layout_editor_absoluteY="89dp" />
+            <TextView
+                android:id="@+id/chance_of_glitter_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text='@{mainViewModel.paramParams.glitterParams.propertyMap[@string/chanceofglitter] + " / 255"}'
+                app:layout_constraintBottom_toBottomOf="@+id/chance_of_glitter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/chance_of_glitter"
+                tools:text="0 / 255" />
 
-        <TextView
-            android:id="@+id/chance_of_glitter_val"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text='@{glitterParams.chanceOfGlitter + " / 255"}'
-            app:layout_constraintBottom_toBottomOf="@+id/chance_of_glitter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/chance_of_glitter"
-            tools:text="0 / 255" />
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/chance_of_glitter_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="128dp"
+                android:layout_marginEnd="64dp"
+                android:indeterminate="false"
+                android:max="255"
+                android:min="0"
+                app:layout_constraintBottom_toBottomOf="@+id/chance_of_glitter"
+                android:progress="@={mainViewModel.paramParams.glitterParams.propertyMap[@string/chanceofglitter]}"
+                app:layout_constraintEnd_toStartOf="@+id/chance_of_glitter_val"
+                app:layout_constraintHorizontal_bias="0.63"
+                app:layout_constraintStart_toEndOf="@+id/chance_of_glitter"
+                app:layout_constraintTop_toTopOf="@+id/chance_of_glitter" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/chance_of_glitter_slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
-            android:layout_marginEnd="64dp"
-            android:indeterminate="false"
-            android:max="255"
-            android:min="0"
-            android:progress="@{glitterParams.chanceOfGlitter}"
-            app:layout_constraintBottom_toBottomOf="@+id/chance_of_glitter"
-            app:layout_constraintEnd_toStartOf="@+id/chance_of_glitter_val"
-            app:layout_constraintHorizontal_bias="0.63"
-            app:layout_constraintStart_toEndOf="@+id/chance_of_glitter"
-            app:layout_constraintTop_toTopOf="@+id/chance_of_glitter" />
+            --glitterDimDelayMin
+            <TextView
+                android:id="@+id/glitter_dim_delay_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/glitterdimdelaymin"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chance_of_glitter" />
 
-        --glitterDimDelayMin
+            <TextView
+                android:id="@+id/glitter_dim_delay_min_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text='@{mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimdelaymin] +"/ 255"}'
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_delay_min"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/glitter_dim_delay_min"
+                tools:text="0 / 255" />
 
-        <TextView
-            android:id="@+id/glitter_dim_delay_min"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:text="glitterDimDelayMin"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chance_of_glitter" />
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/glitter_dim_delay_min_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="128dp"
+                android:layout_marginEnd="64dp"
+                android:indeterminate="false"
+                android:max="255"
+                android:min="0"
+                android:progress='@={mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimdelaymin]}'
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_delay_min"
+                app:layout_constraintEnd_toStartOf="@+id/glitter_dim_delay_min_val"
+                app:layout_constraintHorizontal_bias="0.63"
+                app:layout_constraintStart_toEndOf="@+id/glitter_dim_delay_min"
+                app:layout_constraintTop_toTopOf="@+id/glitter_dim_delay_min" />
 
-        <TextView
-            android:id="@+id/glitter_dim_delay_min_val"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text='@{glitterParams.glitterDimDelayMin +"/ 255"}'
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_delay_min"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/glitter_dim_delay_min"
-            tools:text="0 / 255" />
+            --glitterDimDelayMax
+            <TextView
+                android:id="@+id/glitter_dim_delay_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/glitterdimdelaymax"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/glitter_dim_delay_min" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/glitter_dim_delay_min_slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
-            android:layout_marginEnd="64dp"
-            android:indeterminate="false"
-            android:max="255"
-            android:min="0"
-            android:progress='@{glitterParams.glitterDimDelayMin}'
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_delay_min"
-            app:layout_constraintEnd_toStartOf="@+id/glitter_dim_delay_min_val"
-            app:layout_constraintHorizontal_bias="0.63"
-            app:layout_constraintStart_toEndOf="@+id/glitter_dim_delay_min"
-            app:layout_constraintTop_toTopOf="@+id/glitter_dim_delay_min" />
+            <TextView
+                android:id="@+id/glitter_dim_delay_max_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text='@{mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimdelaymax] + "/ 255"}'
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_delay_max"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/glitter_dim_delay_max"
+                tools:text="0 / 255" />
 
-        --glitterDimDelayMax
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/glitter_dim_delay_max_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="128dp"
+                android:layout_marginEnd="64dp"
+                android:indeterminate="false"
+                android:max="255"
+                android:min="0"
+                android:progress="@={mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimdelaymax]}"
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_delay_max"
+                app:layout_constraintEnd_toStartOf="@+id/glitter_dim_delay_max_val"
+                app:layout_constraintHorizontal_bias="0.63"
+                app:layout_constraintStart_toEndOf="@+id/glitter_dim_delay_max"
+                app:layout_constraintTop_toTopOf="@+id/glitter_dim_delay_max" />
 
-        <TextView
-            android:id="@+id/glitter_dim_delay_max"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:text="glitterDimDelayMax"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/glitter_dim_delay_min" />
+            --glitterDimMin
+            <TextView
+                android:id="@+id/glitter_dim_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/glitterdimmin"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/glitter_dim_delay_max" />
 
-        <TextView
-            android:id="@+id/glitter_dim_delay_max_val"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text='@{glitterParams.glitterDimDelayMax + "/ 255"}'
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_delay_max"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/glitter_dim_delay_max"
-            tools:text="0 / 255" />
+            <TextView
+                android:id="@+id/glitter_dim_min_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text='@{mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimmin] + "/ 255"}'
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_min"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/glitter_dim_min"
+                tools:text="0 / 255" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/glitter_dim_delay_max_slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
-            android:layout_marginEnd="64dp"
-            android:indeterminate="false"
-            android:max="255"
-            android:min="0"
-            android:progress="@{glitterParams.glitterDimDelayMax}"
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_delay_max"
-            app:layout_constraintEnd_toStartOf="@+id/glitter_dim_delay_max_val"
-            app:layout_constraintHorizontal_bias="0.63"
-            app:layout_constraintStart_toEndOf="@+id/glitter_dim_delay_max"
-            app:layout_constraintTop_toTopOf="@+id/glitter_dim_delay_max" />
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/glitter_dim_min_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="128dp"
+                android:layout_marginEnd="64dp"
+                android:indeterminate="false"
+                android:max="255"
+                android:min="0"
+                android:progress="@={mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimmin]}"
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_min"
+                app:layout_constraintEnd_toStartOf="@+id/glitter_dim_min_val"
+                app:layout_constraintHorizontal_bias="0.63"
+                app:layout_constraintStart_toEndOf="@+id/glitter_dim_min"
+                app:layout_constraintTop_toTopOf="@+id/glitter_dim_min" />
 
-        --glitterDimMin
+            --glitterDimMax
+            <TextView
+                android:id="@+id/glitter_dim_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/glitterdimmax"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/glitter_dim_min" />
 
-        <TextView
-            android:id="@+id/glitter_dim_min"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:text="glitterDimMin"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/glitter_dim_delay_max" />
+            <TextView
+                android:id="@+id/glitter_dim_max_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text='@{mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimmax] + "/ 255"}'
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_max"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/glitter_dim_max"
+                tools:text="0 / 255" />
 
-        <TextView
-            android:id="@+id/glitter_dim_min_val"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text='@{glitterParams.glitterDimMin + "/ 255"}'
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_min"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/glitter_dim_min"
-            tools:text="0 / 255" />
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/glitter_dim_max_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="128dp"
+                android:layout_marginEnd="64dp"
+                android:indeterminate="false"
+                android:max="255"
+                android:min="0"
+                android:progress="@={mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimmax]}"
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_max"
+                app:layout_constraintEnd_toStartOf="@+id/glitter_dim_max_val"
+                app:layout_constraintHorizontal_bias="0.63"
+                app:layout_constraintStart_toEndOf="@+id/glitter_dim_max"
+                app:layout_constraintTop_toTopOf="@+id/glitter_dim_max" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/glitter_dim_min_slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
-            android:layout_marginEnd="64dp"
-            android:indeterminate="false"
-            android:max="255"
-            android:min="0"
-            android:progress="@{glitterParams.glitterDimMin}"
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_min"
-            app:layout_constraintEnd_toStartOf="@+id/glitter_dim_min_val"
-            app:layout_constraintHorizontal_bias="0.63"
-            app:layout_constraintStart_toEndOf="@+id/glitter_dim_min"
-            app:layout_constraintTop_toTopOf="@+id/glitter_dim_min" />
+            --glitterBrightenDelayMin
+            <TextView
+                android:id="@+id/glitter_brighten_delay_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/glitterbrightendelaymin"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/glitter_dim_max" />
 
-        --glitterDimMax
+            <TextView
+                android:id="@+id/glitter_brighten_delay_min_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text='@{mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterbrightendelaymin] + "/ 255"}'
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_min"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/glitter_brighten_delay_min"
+                tools:text="0 / 255" />
 
-        <TextView
-            android:id="@+id/glitter_dim_max"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:text="glitterDimMax"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/glitter_dim_min" />
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/glitter_brighten_delay_min_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="128dp"
+                android:layout_marginEnd="64dp"
+                android:indeterminate="false"
+                android:max="255"
+                android:min="0"
+                android:progress="@={mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimdelaymin]}"
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_min"
+                app:layout_constraintEnd_toStartOf="@+id/glitter_brighten_delay_min_val"
+                app:layout_constraintHorizontal_bias="0.63"
+                app:layout_constraintStart_toEndOf="@+id/glitter_brighten_delay_min"
+                app:layout_constraintTop_toTopOf="@+id/glitter_brighten_delay_min" />
 
-        <TextView
-            android:id="@+id/glitter_dim_max_val"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text='@{glitterParams.glitterDimMax + "/ 255"}'
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_max"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/glitter_dim_max"
-            tools:text="0 / 255" />
+            --glitterBrightenDelayMax
+            <TextView
+                android:id="@+id/glitter_brighten_delay_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/glitterbrightendelaymax"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/glitter_brighten_delay_min" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/glitter_dim_max_slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
-            android:layout_marginEnd="64dp"
-            android:indeterminate="false"
-            android:max="255"
-            android:min="0"
-            android:progress="@{glitterParams.glitterDimMax}"
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_dim_max"
-            app:layout_constraintEnd_toStartOf="@+id/glitter_dim_max_val"
-            app:layout_constraintHorizontal_bias="0.63"
-            app:layout_constraintStart_toEndOf="@+id/glitter_dim_max"
-            app:layout_constraintTop_toTopOf="@+id/glitter_dim_max" />
+            <TextView
+                android:id="@+id/glitter_brighten_delay_max_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text='@{mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimdelaymax] + "/ 255"}'
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_max"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/glitter_brighten_delay_max"
+                tools:text="0 / 255" />
 
-        --glitterBrightenDelayMin
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/glitter_brighten_delay_max_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="128dp"
+                android:layout_marginEnd="64dp"
+                android:indeterminate="false"
+                android:max="255"
+                android:min="0"
+                android:progress="@={mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimdelaymin]}"
+                app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_max"
+                app:layout_constraintEnd_toStartOf="@+id/glitter_brighten_delay_max_val"
+                app:layout_constraintHorizontal_bias="0.63"
+                app:layout_constraintStart_toEndOf="@+id/glitter_brighten_delay_max"
+                app:layout_constraintTop_toTopOf="@+id/glitter_brighten_delay_max" />
 
-        <TextView
-            android:id="@+id/glitter_brighten_delay_min"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:text="glitterBrightenDelayMin"
-            android:textSize="11dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/glitter_dim_max" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/glitter_brighten_delay_min_val"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text='@{glitterParams.glitterBrightenDelayMin + "/ 255"}'
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_min"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/glitter_brighten_delay_min"
-            tools:text="0 / 255" />
-
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/glitter_brighten_delay_min_slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
-            android:layout_marginEnd="64dp"
-            android:indeterminate="false"
-            android:max="255"
-            android:min="0"
-            android:progress="@{glitterParams.glitterBrightenDelayMin}"
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_min"
-            app:layout_constraintEnd_toStartOf="@+id/glitter_brighten_delay_min_val"
-            app:layout_constraintHorizontal_bias="0.63"
-            app:layout_constraintStart_toEndOf="@+id/glitter_brighten_delay_min"
-            app:layout_constraintTop_toTopOf="@+id/glitter_brighten_delay_min" />
-
-        --glitterBrighteDelaynMax
-
-        <TextView
-            android:id="@+id/glitter_brighten_delay_max"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:text="glitterBrightenDelayMax"
-            android:textSize="11dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/glitter_brighten_delay_min" />
-
-        <TextView
-            android:id="@+id/glitter_brighten_delay_max_val"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text='@{glitterParams.glitterBrightenDelayMax + "/ 255"}'
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_max"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/glitter_brighten_delay_max"
-            tools:text="0 / 255" />
-
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/glitter_brighten_delay_max_slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
-            android:layout_marginEnd="64dp"
-            android:indeterminate="false"
-            android:max="255"
-            android:min="0"
-            android:progress="@{glitterParams.glitterBrightenDelayMax}"
-            app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_max"
-            app:layout_constraintEnd_toStartOf="@+id/glitter_brighten_delay_max_val"
-            app:layout_constraintHorizontal_bias="0.63"
-            app:layout_constraintStart_toEndOf="@+id/glitter_brighten_delay_max"
-            app:layout_constraintTop_toTopOf="@+id/glitter_brighten_delay_max" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

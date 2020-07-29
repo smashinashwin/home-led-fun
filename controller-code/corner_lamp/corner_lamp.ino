@@ -136,7 +136,7 @@ uint32_t allColors[19] = {DarkOrange, Red, RedWhiteWhite, RedWhite, RedRedWhite,
 
 /* PATTERN PARAMETERS */
 // these are all MQTTABLE
-bool stateOn = true;
+String stateOn = "true";
 //glitter
 byte chanceOfGlitter = 200; //pair a higher number with slower delays for a candel-ey effect
 float starBrightness = 1.0; // 0 to 1 please
@@ -255,11 +255,6 @@ void sendState() { //under development; would be useful for debugging json parsi
 //  client.publish(light_ack_topic, buffer, true);
 }
 
-bool setState() { //sending literally anything to this topic will turn the lamp on or off.
-  stateOn = !stateOn;
-  return true;
-}
-
 void modifyPointer(uint32_t *&pp, uint32_t pointee[]) { //change the color palette
     pp = pointee;
 }
@@ -275,7 +270,7 @@ bool stateJson(char* message) {
   }
 
   if (jsonBuffer.containsKey("state")) {
-    stateOn = (bool)(int)jsonBuffer["state"];
+    stateOn = (String)jsonBuffer["state"];
   }
   Telnet.print("state_change");
   return true;
@@ -295,14 +290,6 @@ bool patternJson(char* message) {
   if (jsonBuffer.containsKey("pattern")) {
     pattern = (int)jsonBuffer["pattern"];
   }
-  
-  if (jsonBuffer.containsKey("rgbw")) {
-    JsonArray rgbw = jsonBuffer["rgbw"];
-    solidColorRed = rgbw[0];
-    solidColorGreen = rgbw[1];
-    solidColorBlue = rgbw[2];
-    solidColorWhite = rgbw[3];    
-  }  
 
   if (jsonBuffer.containsKey("chanceOfGlitter")) {
     chanceOfGlitter = (int)jsonBuffer["chanceOfGlitter"];
@@ -367,6 +354,30 @@ bool patternJson(char* message) {
   
   if (jsonBuffer.containsKey("starBrightness")) {
     starBrightness = (float)jsonBuffer["starBrightness"];
+  }
+    
+  if (jsonBuffer.containsKey("rgbw")) {
+    JsonArray rgbw = jsonBuffer["rgbw"];
+    solidColorRed = rgbw[0];
+    solidColorGreen = rgbw[1];
+    solidColorBlue = rgbw[2];
+    solidColorWhite = rgbw[3];    
+  }  
+
+  if jsonBuffer.containsKey("solidColorRed") {
+    solidColorRed = (byte)jsonBuffer["solidColorRed"]
+  }
+  
+  if jsonBuffer.containsKey("solidColorRed") {
+    solidColorGreen = (byte)jsonBuffer["solidColorGreen"]
+  }
+
+  if jsonBuffer.containsKey("solidColorBlue") {
+    solidColorRed = (byte)jsonBuffer["solidColorBlue"]
+  }
+  
+  if jsonBuffer.containsKey("solidColorWhite") {
+    solidColorRed = (byte)jsonBuffer["solidColorWhite"]
   }
   
   if (jsonBuffer.containsKey("palette")) {
@@ -802,7 +813,7 @@ void loop() {
   }
   */
   /* DO LIGHTS */
-  if (stateOn == false) {
+  if (stateOn == "false") {
     solidColor(0, 0, 0, 0);
   }
   else {
