@@ -28,7 +28,7 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
     private lateinit var mqttParams: MqttParams
     private lateinit var mqttClient: MqttAndroidClient
     private var lastSend: Long = uptimeMillis()
-    private val sendInterval = 100
+    private val sendInterval = 50
     private var lightMessageQueue: ConcurrentLinkedQueue<MqttLightMessage> = ConcurrentLinkedQueue()
 
     private fun loadParams(activity: MainActivity) {

@@ -269,11 +269,10 @@ bool stateJson(char* message) {
     return false;
   }
 
-  if (jsonBuffer.containsKey("state")) {
-    if (strcmp("true", jsonBuffer["state"])) {stateOn = "true";}
+  if (jsonBuffer.containsKey("stateOn")) {
+    if (strcmp("true", jsonBuffer["stateOn"]) == 0) {stateOn = "true";}
     else {stateOn = "false";}
   }
-  Telnet.print("state_change");
   return true;
   
 }
@@ -373,11 +372,11 @@ bool patternJson(char* message) {
   }
 
   if (jsonBuffer.containsKey("solidColorBlue")) {
-    solidColorRed = (byte)jsonBuffer["solidColorBlue"];
+    solidColorBlue = (byte)jsonBuffer["solidColorBlue"];
   }
   
   if (jsonBuffer.containsKey("solidColorWhite")) {
-    solidColorRed = (byte)jsonBuffer["solidColorWhite"];
+    solidColorWhite = (byte)jsonBuffer["solidColorWhite"];
   }
   
   if (jsonBuffer.containsKey("palette")) {
@@ -813,7 +812,7 @@ void loop() {
   }
   */
   /* DO LIGHTS */
-  if (stateOn == "false") {
+  if (strcmp(stateOn, "false") == 0) {
     solidColor(0, 0, 0, 0);
   }
   else {
