@@ -1,7 +1,9 @@
 package com.leds.lightcontroller.utils
 
-import android.os.SystemClock
+import android.os.SystemClock.uptimeMillis
 import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.leds.lightcontroller.data.MqttParams
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
@@ -11,22 +13,23 @@ import com.leds.lightcontroller.main.MainActivity
 import com.leds.lightcontroller.R
 import com.leds.lightcontroller.data.MqttLightMessage
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 import java.io.InputStream
 import java.util.concurrent.ConcurrentLinkedQueue
 
 
-class MqttAndroidClientWrapper(activity: MainActivity) {
+class MqttAndroidClientWrapper(activity: MainActivity): ViewModel() {
     init {
         loadParams(activity)
         connectMqtt(activity)
+        sendFromSendQueue()
     }
 
     private var mainActivity: MainActivity = activity
     private lateinit var mqttParams: MqttParams
     private lateinit var mqttClient: MqttAndroidClient
-    private var lastSend: Long = SystemClock.uptimeMillis()
-    private val sendInterval = 20
+    private var lastSend: Long = uptimeMillis()
+    private val sendInterval = 100
     private var lightMessageQueue: ConcurrentLinkedQueue<MqttLightMessage> = ConcurrentLinkedQueue()
 
     private fun loadParams(activity: MainActivity) {
@@ -72,7 +75,7 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
     }
 
     fun send(lightTopic: String=mqttParams.lightTopic, stateOrPattern: Int, parameter: String, value: Any) {
-        val msg: MqttLightMessage = MqttLightMessage(lightTopic = lightTopic,
+        val msg = MqttLightMessage(lightTopic = lightTopic,
             stateOrPattern = stateOrPattern,
             parameter = parameter,
             value = value
@@ -92,21 +95,17 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
         //the view models shouldn't know about queueing.
         //but i don't necessarily want to ALWAYS call this; it's going to create a lot of nothing work for no reason.
         //could use the last send as a proxy?
-        if (SystemClock.uptimeMillis() - lastSend > sendInterval) sendFromSendQueue()
-        /*
-        withContext(Dispatchers.IO) {
-            if (SystemClock.uptimeMillis() - lastSend > sendInterval) sendFromSendQueue()
-        }
-        */
-
+        //if (SystemClock.uptimeMillis() - lastSend > sendInterval) sendFromSendQueue()
     }
 
     private fun sendFromSendQueue() {
-        while (!lightMessageQueue.isEmpty()) {
-            if (SystemClock.uptimeMillis() - lastSend > sendInterval) {
-                sendMessage(lightMessageQueue.remove())
-                lastSend = SystemClock.uptimeMillis()
-                Log.i("removed from queue", lightMessageQueue.size.toString())
+        viewModelScope.launch(Dispatchers.IO) {
+            while (true) {
+                if (uptimeMillis() - lastSend > sendInterval && !lightMessageQueue.isEmpty()) {
+                    sendMessage(lightMessageQueue.remove())
+                    lastSend = uptimeMillis()
+                    Log.i("removed from queue", lightMessageQueue.size.toString())
+                }
             }
         }
     }
