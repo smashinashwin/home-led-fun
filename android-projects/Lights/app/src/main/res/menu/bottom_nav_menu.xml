@@ -19,5 +19,6 @@
         android:title="@string/title_solid"
         app:showAsAction="always"/>
 
+
 </menu>
 
