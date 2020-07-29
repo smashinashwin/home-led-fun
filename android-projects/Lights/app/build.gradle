@@ -42,7 +42,12 @@ repositories {
         url "https://repo.eclipse.org/content/repositories/paho-snapshots/"
     }
 }
-
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
 
 
 
