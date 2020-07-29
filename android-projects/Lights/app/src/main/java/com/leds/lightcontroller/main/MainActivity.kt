@@ -1,8 +1,6 @@
 package com.leds.lightcontroller.main
 
-import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -12,13 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.*
 import com.leds.lightcontroller.databinding.ActivityMainBinding
 import com.leds.lightcontroller.R
-import com.leds.lightcontroller.livedata.LightParams
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +28,9 @@ class MainActivity : AppCompatActivity() {
         )
         val navController = findNavController(R.id.nav_host_fragment)
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
-        val menu = binding.bottomAppBar
         NavigationUI.setupWithNavController(binding.navView, navController)
         NavigationUI.setupWithNavController(binding.bottomAppBar, navController)
         binding.mainViewModel = viewModel
-        //TODO: is 'this' right?
         binding.lifecycleOwner = this
 
         val paramParamsObserver = Observer<String> {
