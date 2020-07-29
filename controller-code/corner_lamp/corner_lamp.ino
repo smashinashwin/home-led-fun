@@ -136,7 +136,7 @@ uint32_t allColors[19] = {DarkOrange, Red, RedWhiteWhite, RedWhite, RedRedWhite,
 
 /* PATTERN PARAMETERS */
 // these are all MQTTABLE
-String stateOn = "true";
+char* stateOn = "true";
 //glitter
 byte chanceOfGlitter = 200; //pair a higher number with slower delays for a candel-ey effect
 float starBrightness = 1.0; // 0 to 1 please
@@ -270,7 +270,8 @@ bool stateJson(char* message) {
   }
 
   if (jsonBuffer.containsKey("state")) {
-    stateOn = (String)jsonBuffer["state"];
+    if (strcmp("true", jsonBuffer["state"])) {stateOn = "true";}
+    else {stateOn = "false";}
   }
   Telnet.print("state_change");
   return true;
@@ -347,7 +348,6 @@ bool patternJson(char* message) {
     emberBrightnessTriggerMin = (byte)jsonBuffer["emberBrightnessTriggerMin"];
   }
 
-  
   if (jsonBuffer.containsKey("emberBrightnessTriggerMax")) {
     emberBrightnessTriggerMax = (byte)jsonBuffer["emberBrightnessTriggerMax"];
   }
@@ -364,20 +364,20 @@ bool patternJson(char* message) {
     solidColorWhite = rgbw[3];    
   }  
 
-  if jsonBuffer.containsKey("solidColorRed") {
-    solidColorRed = (byte)jsonBuffer["solidColorRed"]
+  if (jsonBuffer.containsKey("solidColorRed")) {
+    solidColorRed = (byte)jsonBuffer["solidColorRed"];
   }
   
-  if jsonBuffer.containsKey("solidColorRed") {
-    solidColorGreen = (byte)jsonBuffer["solidColorGreen"]
+  if (jsonBuffer.containsKey("solidColorGreen")) {
+    solidColorGreen = (byte)jsonBuffer["solidColorGreen"];
   }
 
-  if jsonBuffer.containsKey("solidColorBlue") {
-    solidColorRed = (byte)jsonBuffer["solidColorBlue"]
+  if (jsonBuffer.containsKey("solidColorBlue")) {
+    solidColorRed = (byte)jsonBuffer["solidColorBlue"];
   }
   
-  if jsonBuffer.containsKey("solidColorWhite") {
-    solidColorRed = (byte)jsonBuffer["solidColorWhite"]
+  if (jsonBuffer.containsKey("solidColorWhite")) {
+    solidColorRed = (byte)jsonBuffer["solidColorWhite"];
   }
   
   if (jsonBuffer.containsKey("palette")) {
