@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="mainViewModel"
+            type="com.leds.lightcontroller.main.MainViewModel" />
+    </data>
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_height="match_parent"
@@ -34,7 +40,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_power"
             app:layout_anchor="@id/bottom_app_bar"
-            app:backgroundTint="@color/colorOff"
+            android:backgroundTint='@{mainViewModel.paramParams.lightParams.propertyMap["stateOn"] == "false" ? @color/colorOn : @color/colorOff}'
+            android:onClick="flipSwitch"
             android:hapticFeedbackEnabled="true" />
 
         <com.google.android.material.bottomappbar.BottomAppBar
