@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.EmberFragment">
+        tools:context=".ui.EmberFragment"
+        tools:ignore="ExtraText">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@id/navigation_selector"
@@ -133,7 +134,7 @@
             android:indeterminate="false"
             android:max="255"
             android:min="0"
-            android:progress="@={mainViewModel.paramParams.emberParams.propertyMap[@string/emberbrightenmax]}"
+            android:progress="@={mainViewModel.paramParams.emberParams.propertyMap[@string/emberbrightenmin]}"
             app:layout_constraintBottom_toBottomOf="@+id/ember_brighten_min"
             app:layout_constraintEnd_toStartOf="@+id/ember_brighten_min_val"
             app:layout_constraintHorizontal_bias="0.63"
@@ -305,7 +306,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="20dp"
-            android:text="emberBrightnessTriggerMax"
+            android:text="@string/emberbrightnesstriggermax"
             android:textSize="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ember_brightness_trigger_min" />

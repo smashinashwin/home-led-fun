@@ -246,7 +246,7 @@
                 android:indeterminate="false"
                 android:max="255"
                 android:min="0"
-                android:progress="@={mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimdelaymin]}"
+                android:progress="@={mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterbrightendelaymin]}"
                 app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_min"
                 app:layout_constraintEnd_toStartOf="@+id/glitter_brighten_delay_min_val"
                 app:layout_constraintHorizontal_bias="0.63"
@@ -270,7 +270,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text='@{mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimdelaymax] + "/ 255"}'
+                android:text='@{mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterbrightendelaymax] + "/ 255"}'
                 app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_max"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/glitter_brighten_delay_max"
@@ -285,7 +285,7 @@
                 android:indeterminate="false"
                 android:max="255"
                 android:min="0"
-                android:progress="@={mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterdimdelaymin]}"
+                android:progress="@={mainViewModel.paramParams.glitterParams.propertyMap[@string/glitterbrightendelaymax]}"
                 app:layout_constraintBottom_toBottomOf="@+id/glitter_brighten_delay_max"
                 app:layout_constraintEnd_toStartOf="@+id/glitter_brighten_delay_max_val"
                 app:layout_constraintHorizontal_bias="0.63"
