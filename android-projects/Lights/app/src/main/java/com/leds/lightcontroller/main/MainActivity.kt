@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.*
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.leds.lightcontroller.databinding.ActivityMainBinding
 import com.leds.lightcontroller.R
 
@@ -27,9 +28,20 @@ class MainActivity : AppCompatActivity() {
             R.layout.activity_main
         )
         val navController = findNavController(R.id.nav_host_fragment)
+<<<<<<< HEAD
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
+=======
+
+        val menu: BottomAppBar = binding.bottomAppBar
+
+        menu.setOnMenuItemClickListener { menuItem ->
+            navController.navigate(menuItem.itemId)
+            true
+        }
+
+        NavigationUI.setupActionBarWithNavController(this, navController)
+>>>>>>> 06bfef1ad9dd21b91fc4eeaba229fc7124550412
         NavigationUI.setupWithNavController(binding.navView, navController)
-        NavigationUI.setupWithNavController(binding.bottomAppBar, navController)
         binding.mainViewModel = viewModel
         binding.lifecycleOwner = this
 

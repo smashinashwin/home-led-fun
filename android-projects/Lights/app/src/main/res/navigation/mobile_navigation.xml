@@ -27,5 +27,9 @@
         android:id="@+id/navigation_selector"
         android:name="com.leds.lightcontroller.ui.SelectorFragment"
         android:label="Selector"
-        tools:layout="@layout/fragment_selector" />
+        tools:layout="@layout/fragment_selector" >
+        <action
+            android:id="@+id/action_navigation_selector_to_navigation_solid"
+            app:destination="@id/navigation_solid" />
+    </fragment>
 </navigation>
