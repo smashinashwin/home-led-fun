@@ -10,6 +10,26 @@
     <string name="door">Door</string>
     <string name="lamp">Lamp</string>
     <string name="palette">Palette</string>
+    <string name="emberdelaymin">emberDelayMin</string>
+    <string name="emberdelaymax">emberDelayMax</string>
+    <string name="emberbrightenmin">emberBrightenMin</string>
+    <string name="emberbrightenmax">emberBrightenMax</string>
+    <string name="emberdimmin">emberDimMin</string>
+    <string name="emberdimmax">emberDimMax</string>
+    <string name="emberbrightnesstriggermin">emberBrightnessTriggerMin</string>
+    <string name="emberbrightnesstriggermax">emberBrightnessTriggerMax</string>
+    <string name="chanceofglitter">chanceOfGlitter</string>
+    <string name="glitterdimdelaymin">glitterDimDelayMin</string>
+    <string name="glitterdimdelaymax">glitterDimDelayMax</string>
+    <string name="glitterdimmin">glitterDimMin</string>
+    <string name="glitterdimmax">glitterDimMax</string>
+    <string name="glitterbrightendelaymin">glitterBrightenDelayMin</string>
+    <string name="glitterbrightendelaymax">glitterBrightenDelayMax</string>
+    <string name="color">color</string>
+    <string name="red">Red</string>
+    <string name="emberpatternnumber">0</string>
+    <string name="glitterpatternnumber">1</string>
+    <string name="solidpatternnumber">3</string>
 
 
     <string-array name="palette_array">

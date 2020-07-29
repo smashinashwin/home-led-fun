@@ -1,4 +1,4 @@
-package com.leds.lightcontroller
+package com.leds.lightcontroller.utils
 
 import android.os.SystemClock
 import android.util.Log
@@ -7,6 +7,8 @@ import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
 import java.util.*
 import com.google.gson.Gson
+import com.leds.lightcontroller.main.MainActivity
+import com.leds.lightcontroller.R
 import com.leds.lightcontroller.data.MqttLightMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,7 +26,7 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
     private lateinit var mqttParams: MqttParams
     private lateinit var mqttClient: MqttAndroidClient
     private var lastSend: Long = SystemClock.uptimeMillis()
-    private val sendInterval = 50
+    private val sendInterval = 20
     private var lightMessageQueue: ConcurrentLinkedQueue<MqttLightMessage> = ConcurrentLinkedQueue()
 
     private fun loadParams(activity: MainActivity) {
@@ -46,13 +48,11 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
     fun isConnected(): Boolean {
         return mqttClient.isConnected
     }
-    fun connectMqtt(activity: MainActivity=this.mainActivity) {
+    fun connectMqtt(activity: MainActivity =this.mainActivity) {
         val mqttOptions = MqttConnectOptions()
         mqttOptions.password = mqttParams.password
-        Log.i("mqttPass", mqttParams.password.toString())
         mqttOptions.userName = mqttParams.username
         this.mqttClient = MqttAndroidClient(activity.applicationContext, mqttParams.serverURL,mqttParams.clientId)
-
         try {
             val token: IMqttToken = mqttClient.connect(mqttOptions)
             token.actionCallback = object : IMqttActionListener {
@@ -77,7 +77,6 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
             parameter = parameter,
             value = value
         )
-        val queueSize = lightMessageQueue.size
         lightMessageQueue.add(msg)
         Log.i("added to queue", lightMessageQueue.size.toString())
         //TODO: put this in a non-blocking thread using co-routines.
@@ -88,8 +87,28 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
         // then safely thread things.
         // right now this will be a little janky but it'll work.
         // also the queue is being inserted into and pulled from at the same time, possibly.
-        if (queueSize == 0) sendFromSendQueue()
 
+        //is there a better place from which to call this?
+        //the view models shouldn't know about queueing.
+        //but i don't necessarily want to ALWAYS call this; it's going to create a lot of nothing work for no reason.
+        //could use the last send as a proxy?
+        if (SystemClock.uptimeMillis() - lastSend > sendInterval) sendFromSendQueue()
+        /*
+        withContext(Dispatchers.IO) {
+            if (SystemClock.uptimeMillis() - lastSend > sendInterval) sendFromSendQueue()
+        }
+        */
+
+    }
+
+    fun sendFromSendQueue() {
+        while (!lightMessageQueue.isEmpty()) {
+            if (SystemClock.uptimeMillis() - lastSend > sendInterval) {
+                sendMessage(lightMessageQueue.remove())
+                lastSend = SystemClock.uptimeMillis()
+                Log.i("removed from queue", lightMessageQueue.size.toString())
+            }
+        }
     }
 
     fun sendMessage(msg: MqttLightMessage) {
@@ -103,27 +122,17 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
         val payloadString: String = gson.toJson(payloadMap)
         val mqttMsg = MqttMessage()
         mqttMsg.payload = payloadString.toByteArray()
-        //while (!mqttClient.isConnected) {
-        //    connectMqtt(mainActivity)
-        //}
         if (mqttClient.isConnected) {
-            mqttClient.publish(topic, mqttMsg)
-            Log.i("mqttsendSuccess", payloadString)
+            try {
+                mqttClient.publish(topic, mqttMsg)
+                Log.i("mqttsendSuccess", payloadString)
+            }
+            catch (e: java.lang.Exception) {
+                Log.i("error sending mqtt", "exception: $e \npayload: $payloadString")
+            }
         }
         else {
             Log.i("mqttSendFail", payloadString)
-        }
-    }
-
-    fun sendFromSendQueue() {
-        while (!lightMessageQueue.isEmpty()) {
-            Log.i("really?",(SystemClock.uptimeMillis()-  lastSend).toString())
-            Log.i("queuesize", lightMessageQueue.size.toString())
-            if (SystemClock.uptimeMillis() - lastSend > sendInterval) {
-                sendMessage(lightMessageQueue.remove())
-                lastSend = SystemClock.uptimeMillis()
-                Log.i("removed from queue", lightMessageQueue.size.toString())
-            }
         }
     }
 }
