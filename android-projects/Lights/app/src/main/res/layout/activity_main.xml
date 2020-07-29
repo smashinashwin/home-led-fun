@@ -33,17 +33,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/mobile_navigation" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/power_button"
-            android:title="@string/power"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_power"
-            app:layout_anchor="@id/bottom_app_bar"
-            android:backgroundTint='@{mainViewModel.paramParams.lightParams.propertyMap["stateOn"] == "false" ? @color/colorOn : @color/colorOff}'
-            android:onClick="flipSwitch"
-            android:hapticFeedbackEnabled="true" />
-
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_app_bar"
             android:layout_gravity="bottom"
@@ -52,6 +41,20 @@
             android:background="?android:attr/windowBackground"
             app:backgroundTint="@color/colorPrimaryDark"
             app:menu="@menu/bottom_nav_menu" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/power_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint='@{mainViewModel.paramParams.lightParams.propertyMap["stateOn"] == "false" ? @color/colorOn : @color/colorOff}'
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="70dp"
+            android:layout_marginEnd="10dp"
+            android:elevation="0dp"
+            android:hapticFeedbackEnabled="true"
+            android:onClick="flipSwitch"
+            android:src="@drawable/ic_power"
+            android:title="@string/power" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
