@@ -101,7 +101,7 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
 
     }
 
-    fun sendFromSendQueue() {
+    private fun sendFromSendQueue() {
         while (!lightMessageQueue.isEmpty()) {
             if (SystemClock.uptimeMillis() - lastSend > sendInterval) {
                 sendMessage(lightMessageQueue.remove())
@@ -111,7 +111,7 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
         }
     }
 
-    fun sendMessage(msg: MqttLightMessage) {
+    private fun sendMessage(msg: MqttLightMessage) {
         val gson = Gson()
         val functionTopic: String = when (msg.stateOrPattern) {
             0 -> mqttParams.patternTopic

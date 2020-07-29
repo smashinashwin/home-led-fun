@@ -18,10 +18,6 @@ import com.leds.lightcontroller.main.MainViewModel
 
 class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
-    companion object {
-        fun newInstance() = SelectorFragment()
-    }
-
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: FragmentSelectorBinding
     private lateinit var paletteArray: Array<String>
@@ -84,7 +80,4 @@ class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         lightParams.propertyMap["palette"]!!.value = paletteArray[p2]
     }
-
-    //should there also be a pattern selector here?
-
 }

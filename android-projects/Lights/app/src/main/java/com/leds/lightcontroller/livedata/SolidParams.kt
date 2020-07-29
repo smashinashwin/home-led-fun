@@ -5,9 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 
-
-//this live data is nice for implementing observer patterns in view models
-//next step should be to use a DAO/Room/repository though.
 class SolidParams: IntParamsLiveData() {
 
     override val propertyNames: Array<String> = arrayOf(
@@ -32,6 +29,7 @@ class SolidParams: IntParamsLiveData() {
         solidColorWhite
     )
 
+    //useful for brightness feature
     val gammaCorrection: Array<Int> = arrayOf(
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,

@@ -1,7 +1,5 @@
 package com.leds.lightcontroller.livedata
 
-import android.util.Log
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 
 abstract class StringParamsLiveData: ParamsLiveData() {

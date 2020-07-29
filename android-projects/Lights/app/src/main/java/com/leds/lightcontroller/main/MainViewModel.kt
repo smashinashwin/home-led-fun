@@ -20,13 +20,11 @@ class MainViewModel() : ViewModel() {
         if (!mqttClient.isConnected()) mqttClient.connectMqtt()
     }
 
-    //TODO: bind the stateOn variable to the power switch. Set the color in XML
+
     //TODO: convert all hard-coded strings to constants
-    //TODO: should these functions belong in the data classes?
-    //TODO: can this be generic enough to always send?
     fun sendMessage(propertyName: String) {
         //choose the glitter or ember object, find the changed parameter and value, and send.
-        val property: ParamsLiveData? = paramParams.propMap[propertyName]
+        val property: ParamsLiveData? = paramParams.propertyMap[propertyName]
         val parameter: String = property!!.mediator.value!!
         val lightParams = paramParams.lightParams
         val lightTopic = lightParams.propertyMap["lightTopic"]!!.value!!

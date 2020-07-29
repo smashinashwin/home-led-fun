@@ -29,26 +29,12 @@ class SolidFragment : Fragment() {
         viewModel = model.get(MainViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_solid, container, false)
 
-        //live data in fragment_solid.xml
-        //seek bars are two-way bound, meaning that their updates should already update the solidParams variable in the model
-        //then the observer here triggers an update sent.
-        //i think this means we don't need listeners anymore
         binding.mainViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        /*
-
-        val colorObserver = Observer<SolidParams> {
-            viewModel.setSolidParams(mainActivity.viewModel.mqttClient, mainActivity.viewModel.lightParams)
-            binding.textSolid.setBackgroundColor(viewModel.solidParams.value!!.color)
-        }
-
-        viewModel.solidParams.observe(viewLifecycleOwner, colorObserver)
-        */
 
         return binding.root
     }
 
-    //whenever this fragment is started, set the pattern to solid
     override fun onStart() {
         super.onStart()
         val lightParams = mainActivity.viewModel.paramParams.lightParams

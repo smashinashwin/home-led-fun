@@ -40,8 +40,6 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         val paramParamsObserver = Observer<String> {
-            //this needs to handle everything that can be changed.
-            //biggest outlier is the power button.
             viewModel.sendMessage(it)
         }
         viewModel.paramParams.mediator.observe(this, paramParamsObserver)
@@ -52,9 +50,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         viewModel.connectMqtt()
     }
-
-    //this is a good place for live data. make the powerStatus observable. the onclick event changes the powerStatus in the
-    //view model, and the observable should change the color of the button
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.nav_host_fragment)
