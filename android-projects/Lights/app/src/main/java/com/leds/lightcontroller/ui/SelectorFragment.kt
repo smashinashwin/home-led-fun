@@ -1,8 +1,6 @@
-package com.leds.lightcontroller.ui.selector
+package com.leds.lightcontroller.ui
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +9,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.databinding.DataBindingUtil
-import com.leds.lightcontroller.MainActivity
+import androidx.lifecycle.ViewModelProvider
+import com.leds.lightcontroller.main.MainActivity
 import com.leds.lightcontroller.R
-import com.leds.lightcontroller.data.LightParams
-import com.leds.lightcontroller.data.MqttParams
 import com.leds.lightcontroller.databinding.FragmentSelectorBinding
-import org.eclipse.paho.android.service.MqttAndroidClient
-import org.eclipse.paho.client.mqttv3.MqttMessage
+import com.leds.lightcontroller.livedata.LightParams
+import com.leds.lightcontroller.main.MainViewModel
 
 class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
@@ -25,22 +22,28 @@ class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
         fun newInstance() = SelectorFragment()
     }
 
-    private lateinit var viewModel: SelectorViewModel
+    private lateinit var viewModel: MainViewModel
     private lateinit var binding: FragmentSelectorBinding
+    private lateinit var paletteArray: Array<String>
+    private lateinit var mainActivity: MainActivity
     lateinit var lightParams: LightParams
-    lateinit var paletteArray: Array<String>
-    lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //TODO: make this MVC by utilizing selectorviewmodel for all the logics
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_selector, container, false)
-        lightParams = LightParams()
-        paletteArray = resources.getStringArray(R.array.palette_array)
 
-        val startIndex = when (lightParams.palette) {
+        mainActivity = activity as MainActivity
+        val model = ViewModelProvider(mainActivity)
+        viewModel = model.get(MainViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_selector, container, false)
+        binding.mainViewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        //TODO: make this MVC by utilizing selectorviewmodel for all the logics
+        paletteArray = resources.getStringArray(R.array.palette_array)
+        lightParams = viewModel.paramParams.lightParams
+        val startIndex = when (lightParams.propertyMap["palette"]!!.value!!) {
             paletteArray.get(0) -> 0
             paletteArray.get(1) -> 1
             paletteArray.get(2) -> 2
@@ -65,30 +68,21 @@ class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         spinner.setSelection(startIndex)
 
-        spinner!!.onItemSelectedListener = this
+        spinner.onItemSelectedListener = this
         this.mainActivity = activity as MainActivity
-
-
+        binding.mainViewModel = mainActivity.viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
 
-
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SelectorViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
         TODO("Not yet implemented")
     }
 
+    //TODO wire up selector with live data more smartly
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        lightParams.palette = paletteArray.get(p2)
-        binding.invalidateAll()
-        Log.i("selectorfragment", lightParams.palette)
-        mainActivity.mqttClient.send(lightParams.lightTopic, 0, "palette", lightParams.palette)
+        lightParams.propertyMap["palette"]!!.value = paletteArray[p2]
     }
 
     //should there also be a pattern selector here?
