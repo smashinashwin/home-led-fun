@@ -21,7 +21,7 @@ class EmberParams : IntParamsLiveData() {
     private val emberDimMin: MutableLiveData<Int> = MutableLiveData<Int>(1)
     private val emberDimMax: MutableLiveData<Int> = MutableLiveData<Int>(5)
     private val emberBrightnessTriggerMin: MutableLiveData<Int> = MutableLiveData<Int>(220)
-    private val emberBrightnessTriggerMax: MutableLiveData<Int> = MutableLiveData<Int>(220)
+    private val emberBrightnessTriggerMax: MutableLiveData<Int> = MutableLiveData<Int>(255)
 
     override val liveDataArray: Array<MutableLiveData<Int>> = arrayOf(
         emberDelayMin,
