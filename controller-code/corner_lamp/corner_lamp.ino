@@ -136,7 +136,7 @@ uint32_t allColors[19] = {DarkOrange, Red, RedWhiteWhite, RedWhite, RedRedWhite,
 
 /* PATTERN PARAMETERS */
 // these are all MQTTABLE
-char* stateOn = "true";
+char* stateOn = "false";
 //glitter
 byte chanceOfGlitter = 200; //pair a higher number with slower delays for a candel-ey effect
 float starBrightness = 1.0; // 0 to 1 please

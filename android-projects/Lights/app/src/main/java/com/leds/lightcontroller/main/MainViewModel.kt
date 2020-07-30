@@ -20,7 +20,6 @@ class MainViewModel() : ViewModel() {
         if (!mqttClient.isConnected()) mqttClient.connectMqtt()
     }
 
-
     //TODO: convert all hard-coded strings to constants
     fun sendMessage(propertyName: String) {
         //choose the glitter or ember object, find the changed parameter and value, and send.

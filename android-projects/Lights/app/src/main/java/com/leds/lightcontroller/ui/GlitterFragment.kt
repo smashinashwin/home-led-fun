@@ -12,7 +12,6 @@ import com.leds.lightcontroller.main.MainActivity
 import com.leds.lightcontroller.databinding.FragmentGlitterBinding
 import com.leds.lightcontroller.main.MainViewModel
 
-
 class GlitterFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel

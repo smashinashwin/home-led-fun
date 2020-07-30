@@ -12,7 +12,6 @@ import com.leds.lightcontroller.main.MainActivity
 import com.leds.lightcontroller.databinding.FragmentEmberBinding
 import com.leds.lightcontroller.main.MainViewModel
 
-
 class EmberFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel

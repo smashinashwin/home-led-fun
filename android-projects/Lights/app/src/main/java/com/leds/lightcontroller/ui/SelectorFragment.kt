@@ -76,7 +76,6 @@ class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
         TODO("Not yet implemented")
     }
 
-    //TODO wire up selector with live data more smartly
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         lightParams.propertyMap["palette"]!!.value = paletteArray[p2]
     }
