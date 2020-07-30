@@ -18,7 +18,7 @@ import java.io.InputStream
 import java.util.concurrent.ConcurrentLinkedQueue
 
 
-class MqttAndroidClientWrapper(activity: MainActivity) {
+class MqttAndroidClientWrapper(activity: MainActivity): ViewModel() {
     init {
         loadParams(activity)
         connectMqtt(activity)
@@ -79,30 +79,21 @@ class MqttAndroidClientWrapper(activity: MainActivity) {
             parameter = parameter,
             value = value
         )
+        val queueIsEmpty: Boolean = lightMessageQueue.isEmpty()
         lightMessageQueue.add(msg)
+        if (queueIsEmpty) sendFromSendQueue()
         Log.i("added to queue", lightMessageQueue.size.toString())
-        //TODO: put this in a non-blocking thread using co-routines.
-        // withContext(Dispatchers.IO) { code }
-        // this creates kind of a mess because send is called from the view models and the fragments
-        // need to pull all sends into the view models
-        // then figure out how the view model lifecycle wires things up.
-        // then safely thread things.
-        // right now this will be a little janky but it'll work.
-        // also the queue is being inserted into and pulled from at the same time, possibly.
-
-        //is there a better place from which to call this?
-        //the view models shouldn't know about queueing.
-        //but i don't necessarily want to ALWAYS call this; it's going to create a lot of nothing work for no reason.
-        //could use the last send as a proxy?
-        sendFromSendQueue()
     }
 
     private fun sendFromSendQueue() {
-        while (!lightMessageQueue.isEmpty()) {
-            if (uptimeMillis() - lastSend > sendInterval) {
-                sendMessage(lightMessageQueue.remove())
-                lastSend = uptimeMillis()
-                Log.i("removed from queue", lightMessageQueue.size.toString())
+        viewModelScope.launch(Dispatchers.IO) {
+            while (!lightMessageQueue.isEmpty()) {
+                if (uptimeMillis() - lastSend > sendInterval) {
+                    //avoid collisions
+                    if (!lightMessageQueue.isEmpty()) sendMessage(lightMessageQueue.remove())
+                    lastSend = uptimeMillis()
+                    Log.i("removed from queue", lightMessageQueue.size.toString())
+                }
             }
         }
     }
