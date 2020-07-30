@@ -11,7 +11,7 @@ class LightParams: StringParamsLiveData() {
         "pattern"
     )
     private val lightTopic: MutableLiveData<String> = MutableLiveData<String>("lamp")
-    private val stateOn: MutableLiveData<String> = MutableLiveData<String>("false")
+    private val stateOn: MutableLiveData<String> = MutableLiveData<String>("true")
     private val palette: MutableLiveData<String> = MutableLiveData<String>("allStars")
     private val pattern: MutableLiveData<String> = MutableLiveData<String>("0")
 

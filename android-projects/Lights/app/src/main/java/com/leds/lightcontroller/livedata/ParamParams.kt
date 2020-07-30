@@ -1,8 +1,12 @@
 package com.leds.lightcontroller.livedata
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.lifecycle.MediatorLiveData
+import kotlinx.android.parcel.Parcelize
 
-class ParamParams: ParamsLiveData() {
+@Parcelize
+class ParamParams: ParamsLiveData(), Parcelable {
     private val propertyNames: Array<String> = arrayOf(
         "emberParams",
         "glitterParams",
