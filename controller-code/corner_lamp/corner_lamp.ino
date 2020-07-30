@@ -685,8 +685,11 @@ void solidColor(byte r, byte g, byte b, byte w) {
   for (int pixel = 0; pixel < NUM_STRIPS*NUM_PIXELS; pixel++) {
     int strip = pixels[pixel].getStrip();
     int p = pixels[pixel].getPixel();
-    Strips[strip].setPixelColor(p, c);    
+    if (Strips[strip].getPixelColor(p) != c) {
+      Strips[strip].setPixelColor(p, c);
+    }
   }
+  delay(50);
   
   for (int strip = 0; strip < NUM_STRIPS; strip++) {
     Strips[strip].show();

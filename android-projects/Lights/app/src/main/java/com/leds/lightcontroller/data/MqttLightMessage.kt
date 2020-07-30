@@ -5,4 +5,10 @@ data class MqttLightMessage (
     var stateOrPattern: Int,
     var parameter: String,
     var value: Any
-)
+
+
+) {
+    override fun toString(): String {
+        return "($parameter, $value)"
+    }
+}

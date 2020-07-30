@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.InputStream
 import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.NoSuchElementException
 
 
 class MqttAndroidClientWrapper(activity: MainActivity): ViewModel() {
@@ -30,6 +31,9 @@ class MqttAndroidClientWrapper(activity: MainActivity): ViewModel() {
     private var lastSend: Long = uptimeMillis()
     private val sendInterval = 50
     private var lightMessageQueue: ConcurrentLinkedQueue<MqttLightMessage> = ConcurrentLinkedQueue()
+    //private var lightMessageQueue: Flow<MqttLightMessage> = flow {
+
+
 
     private fun loadParams(activity: MainActivity) {
         var reader: InputStream = activity.resources.openRawResource(R.raw._mqttconfig)
@@ -82,17 +86,21 @@ class MqttAndroidClientWrapper(activity: MainActivity): ViewModel() {
         val queueIsEmpty: Boolean = lightMessageQueue.isEmpty()
         lightMessageQueue.add(msg)
         if (queueIsEmpty) sendFromSendQueue()
-        Log.i("added to queue", lightMessageQueue.size.toString())
     }
 
     private fun sendFromSendQueue() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(context = Dispatchers.IO) {
             while (!lightMessageQueue.isEmpty()) {
-                if (uptimeMillis() - lastSend > sendInterval) {
-                    //avoid collisions
-                    if (!lightMessageQueue.isEmpty()) sendMessage(lightMessageQueue.remove())
-                    lastSend = uptimeMillis()
-                    Log.i("removed from queue", lightMessageQueue.size.toString())
+                if (uptimeMillis() - lastSend > sendInterval && mqttClient.isConnected) {
+                    try {
+                        val message = lightMessageQueue.remove()
+                        sendMessage(message)
+                        lastSend = uptimeMillis()
+                        Log.i("sent message from queue", message.toString())
+                    }
+                    catch (e: NoSuchElementException)  {
+                        Log.i("queue send error", e.toString())
+                    }
                 }
             }
         }

@@ -1,6 +1,8 @@
 package com.leds.lightcontroller.main
 
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -11,6 +13,7 @@ import androidx.navigation.ui.*
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.leds.lightcontroller.databinding.ActivityMainBinding
 import com.leds.lightcontroller.R
+import com.leds.lightcontroller.livedata.ParamParams
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +27,9 @@ class MainActivity : AppCompatActivity() {
         val model = ViewModelProvider(this)
         viewModel = model.get(MainViewModel::class.java)
         viewModel.initialize(this)
+        if (savedInstanceState != null) {
+            viewModel.paramParams = savedInstanceState.get("key_live_data") as ParamParams
+        }
         binding = DataBindingUtil.setContentView(this,
             R.layout.activity_main
         )
@@ -47,6 +53,11 @@ class MainActivity : AppCompatActivity() {
         }
         viewModel.paramParams.mediator.observe(this, paramParamsObserver)
         binding.mainViewModel = this.viewModel
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("key_live_data", viewModel.paramParams)
     }
 
     override fun onStart() {
