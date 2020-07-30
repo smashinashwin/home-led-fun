@@ -31,9 +31,6 @@ class MqttAndroidClientWrapper(activity: MainActivity): ViewModel() {
     private var lastSend: Long = uptimeMillis()
     private val sendInterval = 50
     private var lightMessageQueue: ConcurrentLinkedQueue<MqttLightMessage> = ConcurrentLinkedQueue()
-    //private var lightMessageQueue: Flow<MqttLightMessage> = flow {
-
-
 
     private fun loadParams(activity: MainActivity) {
         var reader: InputStream = activity.resources.openRawResource(R.raw._mqttconfig)
