@@ -9,11 +9,14 @@
 
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="top|center_horizontal"
+    >
     <LinearLayout
         android:id="@+id/checkbox_grp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         tools:context=".ui.SelectorFragment"
         android:orientation="horizontal">
 
@@ -22,7 +25,9 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lamp" />
+            android:text="@string/lamp"
+            android:checked="true"
+            />
 
         <CheckBox
             android:id="@+id/door_check"

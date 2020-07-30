@@ -1,9 +1,11 @@
 package com.leds.lightcontroller.ui
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +19,6 @@ class SolidFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: FragmentSolidBinding
     private lateinit var mainActivity: MainActivity
-
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -39,5 +40,8 @@ class SolidFragment : Fragment() {
         super.onStart()
         val lightParams = mainActivity.viewModel.paramParams.lightParams
         lightParams.propertyMap["pattern"]!!.value = getString(R.string.solidpatternnumber)
+        binding.navigationSelector.findViewById<View>(R.id.palette_spinner).visibility = View.GONE
+        binding.navigationSelector.findViewById<View>(R.id.palette_selector).visibility = View.GONE
+
     }
 }
