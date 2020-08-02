@@ -2,11 +2,14 @@
 ### A repo for wifi-controlled LED projects.
 
 ## Summary
+This is a wifi-controlled smart lamp. It uses SK6812 RGBW Leds, an ESP8266 Microcontroller, Mosquitto, a Raspberry Pi server, and an Android app to provide light, look awesome, and enable easy control.
+
 The lamp consists of 4 meters of SK6812 RGBW LEDs at 60 LEDs / meter. They are controlled by and ESP8266, and powered by a 5V 20A power supply. 
 The ESP8266 microcontroller is subscribed to an MQTT broker hosted on a Raspberry Pi.
+
 The andriod app sends messages to the same MQTT broker, which are picked up by the ESP. These messages turn the lights on/off, and change patterns and colors.
 
-Because these LEDs are RGBW, the Adafruit Neopixel library was used instead of FastLED. This added some necessary helper functions and made the code a bit clunkier, but having a white LED is pretty sweet =).
+Currently, the microcontroller holds all pattern logic and saved colors; the MQTT messages just change these parameters.
 
 Currently this only works if everything is on the same network.
 
@@ -25,38 +28,47 @@ The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs t
 - Logic level shifter [amazon](https://www.amazon.com/Adafruit-74LVC245-Breadboard-Friendly-Shifter/dp/B00SK8OC0S/ref=sr_1_2?dchild=1&keywords=adafruit+logic+level+shifter&qid=1596243973&s=electronics&sr=1-2)
 
 ## Software
-- Arduino / C++ for the controller code
+- Arduino IDE / C++ for the controller code
   - PubSubClient
   - ArduinoJson
   - Adafruit NeoPixel
   
 - Raspberry Pi 
-  - [Mosquitto MQTT server](https://mosquitto.org/)
+  - [Mosquitto MQTT broker](https://mosquitto.org/)
  
  - Android App
   - Kotlin
   - XML
   
 ## Photos
-Lamp:
-![Lamp](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Lamp.jpg)
+### Ember Pattern:
 
-Wiring:
-![Wiring](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Wiring.jpg)
-
-Ember Pattern:
 ![ember](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Ember_gif.gif)
 
+
+### App 
+
+![app](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/app_gif.gif)
+
+
+#### Wiring:
+
+![Wiring](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Wiring.jpg)
+
 ## Future Work
-### Scheduling and saving
-Build a backend on the raspberry pi that can database patterns / colors / palettes, and run a schedule for the lights. Build a front-end on the app to add schedules / settings / colors.
-Add more accent lighting and connect them to this system.
+**Scheduling and saving**
+- Build a backend on the raspberry pi that can database patterns / colors / palettes, and run a schedule for the lights. Build a front-end on the app to add schedules / settings / colors.
+- Add more accent lighting and connect them to this system.
+
+**Refactor patterns**
+- These are currently clunky, and all held on the microcontroller. One thing to try would be to make the microcontroller solely responsible for receiving information, and putting all pattern logic onto the raspberry pi. 
 
 ## Problems and gotchas encountered:
 - Melting stuff. Make sure to use wires with enough [ampacity](https://xtronics.com/wiki/Wire-Gauge_Ampacity.html) for your project.
 - RGBW isn't supported by FastLED
 - These LEDs don't play well with multi-core microcontrollers (the ESP32 for example). If you want to use the ESP32 and/or FastLED, check out the APA* lights [amazon](https://www.amazon.com/gp/product/B078JVS2VG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
-- The ESP8266 can get overwhelmed if continuously parsing JSON or sending instructions to the LEDs. Use delays or timers. The android app queues messages and sends them on a 50ms delay.
+- The ESP8266 can get overwhelmed if continuously parsing JSON or sending instructions to the LEDs. Use delays or timers. The android app queues messages and sends them on a 50ms delay. 
+
 
 ## Helpful Links and Resources
 - [This project is most similar to the work in this guide; super helpful!](https://www.youtube.com/watch?v=9KI36GTgwuQ)
