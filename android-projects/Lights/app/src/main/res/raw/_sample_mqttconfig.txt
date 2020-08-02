@@ -1,0 +1,7 @@
+username=YOUR MQTT USERNAME HERE
+password=YOUR MQTT PASSWORD HERE
+serverURL=tcp://YOUR MQTT BROKER IP ADDRESS HERE
+clientId=NAME FOR YOUR ANDROID APP HERE
+stateTopic=state
+patternTopic=pattern
+lightTopic=lamp
