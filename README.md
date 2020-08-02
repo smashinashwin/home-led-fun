@@ -6,7 +6,7 @@ This is a wifi-controlled smart lamp. It uses SK6812 RGBW Leds, powered by a 5V 
 
 ## Hardware
 
-The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs to the ESP8266 chip, Logic level shifter (converting data signals from 3.3V to 5V, and the LEDs. The LED data wires are connected to pins 2 and 4 on the ESP8266. See this handy [link](https://tttapa.github.io/ESP8266/Chap04%20-%20Microcontroller.html#:~:text=The%20ESP8266%20has%2017%20GPIO,you%20might%20crash%20your%20program.) for more information on the ESP866 pinout.
+The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs to the ESP8266 chip, Logic Level Shifter (converting data signals from 3.3V to 5V), and the LEDs. The LED data wires are connected to pins 2 and 4 on the ESP8266. See this handy [link](https://tttapa.github.io/ESP8266/Chap04%20-%20Microcontroller.html#:~:text=The%20ESP8266%20has%2017%20GPIO,you%20might%20crash%20your%20program.) for more information on the ESP866 pinout.
 
 
 - SK6812 RGBnW LEDs (4m) [amazon](https://www.amazon.com/BTF-LIGHTING-Individually-Addressable-Flexible-Waterproof/dp/B01MYV70NJ/ref=sxts_sxwds-bia-wc-p13n1_0?cv_ct_cx=sk6812&dchild=1&keywords=sk6812&pd_rd_i=B01MYV70NJ&pd_rd_r=2c7bbf26-571c-4531-883f-67f81f890309&pd_rd_w=qm9wW&pd_rd_wg=sqsCy&pf_rd_p=13bf9bc7-d68d-44c3-9d2e-647020f56802&pf_rd_r=G11ANDVGSYG5QEVVEV9D&psc=1&qid=1596243243&sr=1-1-791c2399-d602-4248-afbb-8a79de2d236f)
