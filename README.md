@@ -2,16 +2,7 @@
 ### A repo for wifi-controlled LED projects.
 
 ## Summary
-This is a wifi-controlled smart lamp. It uses SK6812 RGBW Leds, an ESP8266 Microcontroller, Mosquitto, a Raspberry Pi server, and an Android app to provide light, look awesome, and enable easy control.
-
-The lamp consists of 4 meters of SK6812 RGBW LEDs at 60 LEDs / meter. They are controlled by and ESP8266, and powered by a 5V 20A power supply. 
-The ESP8266 microcontroller is subscribed to an MQTT broker hosted on a Raspberry Pi.
-
-The andriod app sends messages to the same MQTT broker, which are picked up by the ESP. These messages turn the lights on/off, and change patterns and colors.
-
-Currently, the microcontroller holds all pattern logic and saved colors; the MQTT messages just change these parameters.
-
-Currently this only works if everything is on the same network.
+This is a wifi-controlled smart lamp. It uses SK6812 RGBW Leds, powered by a 5V 20A power supply, controlled by an ESP8266 Microcontroller, listening to a Mosquitto broker on a Raspberry Pi and an Android app to provide light, look awesome, and enable easy control.
 
 ## Hardware
 
@@ -68,6 +59,7 @@ The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs t
 - RGBW isn't supported by FastLED
 - These LEDs don't play well with multi-core microcontrollers (the ESP32 for example). If you want to use the ESP32 and/or FastLED, check out the APA* lights [amazon](https://www.amazon.com/gp/product/B078JVS2VG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
 - The ESP8266 can get overwhelmed if continuously parsing JSON or sending instructions to the LEDs. Use delays or timers. The android app queues messages and sends them on a 50ms delay. 
+- Hand-sawing is both hard and dangerous.
 
 
 ## Helpful Links and Resources
