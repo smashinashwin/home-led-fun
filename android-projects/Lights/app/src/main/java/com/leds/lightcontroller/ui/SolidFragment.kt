@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.leds.lightcontroller.main.MainActivity
 import com.leds.lightcontroller.R
 import com.leds.lightcontroller.databinding.FragmentSolidBinding
 import com.leds.lightcontroller.main.MainViewModel
+import kotlinx.android.synthetic.main.fragment_selector.*
 
 /*
  * All this fragment need to do is draw the layout to the screen. and setup two-way data binding.
@@ -45,8 +47,6 @@ class SolidFragment : Fragment() {
         super.onStart()
         val lightParams = mainActivity.viewModel.paramParams.lightParams
         lightParams.propertyMap["pattern"]!!.value = getString(R.string.solidpatternnumber)
-        binding.navigationSelector.findViewById<View>(R.id.palette_spinner).visibility = View.GONE
-        binding.navigationSelector.findViewById<View>(R.id.palette_selector).visibility = View.GONE
-
+        binding.navigationSelector.findViewById<View>(R.id.palette_grp).visibility = View.GONE
     }
 }

@@ -1,6 +1,7 @@
 package com.leds.lightcontroller.main
 
 import android.text.PrecomputedText
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.leds.lightcontroller.livedata.*
@@ -53,5 +54,12 @@ class MainViewModel : ViewModel() {
         val powerStatus = lightParams.propertyMap["stateOn"]!!.value == "false"
         //This value just changes the LiveData<String> object lightParams.stateOn. The paramParamsObserver then kicks off viewModel.sendMessage()
         lightParams.propertyMap["stateOn"]!!.value = if (powerStatus)  "true" else "false"
+    }
+
+    fun saveSetting() {
+        Log.i("setting to be saved", paramParams.mediator.value!!)
+        //TODO("add current settings to the postgres database on the rpi ")
+        //https://stackoverflow.com/questions/10435609/driver-jdbc-postgresql-with-android
+
     }
 }

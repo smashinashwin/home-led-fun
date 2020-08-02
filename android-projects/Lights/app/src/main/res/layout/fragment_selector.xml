@@ -44,6 +44,7 @@
             android:text="@string/window" />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/palette_grp"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_below="@+id/checkbox_grp"
@@ -70,6 +71,24 @@
             app:layout_constraintStart_toEndOf="@+id/palette_selector"
             app:layout_constraintTop_toTopOf="@+id/palette_selector"
             />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/database_grp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/palette_grp"
+        android:layout_marginTop="8dp">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/save"
+        android:backgroundTint="@color/colorAccent"
+        android:onClick="saveSetting">
+
+    </Button>
     </LinearLayout>
 </RelativeLayout>
 </layout>
