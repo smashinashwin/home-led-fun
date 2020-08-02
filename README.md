@@ -37,6 +37,10 @@ The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs t
   - Kotlin
   - XML
   
+## Photos
+[Lamp](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Lamp.jpg)
+[Wiring](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Wiring.jpg)
+
 ## Future Work
 ### Scheduling and saving
 Build a backend on the raspberry pi that can database patterns / colors / palettes, and run a schedule for the lights. Build a front-end on the app to add schedules / settings / colors.
