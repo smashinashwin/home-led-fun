@@ -4,7 +4,11 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.lifecycle.MediatorLiveData
 import kotlinx.android.parcel.Parcelize
-
+/*
+ * "Super" Live Data class. Holds all concrete implementations of ParamsLiveData.
+ * Its mediator variable observes all of its members of type ParamsLiveData, and changes its name to the name of that object when a change is observed.
+ * This mediator is watched by MainActivity
+ */
 @Parcelize
 class ParamParams: ParamsLiveData(), Parcelable {
     private val propertyNames: Array<String> = arrayOf(

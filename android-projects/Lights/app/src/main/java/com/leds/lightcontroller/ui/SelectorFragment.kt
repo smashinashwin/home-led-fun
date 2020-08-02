@@ -16,6 +16,12 @@ import com.leds.lightcontroller.databinding.FragmentSelectorBinding
 import com.leds.lightcontroller.livedata.LightParams
 import com.leds.lightcontroller.main.MainViewModel
 
+/*
+ *  This fragment is more complicated than the rest.
+ *  Some logic should maybe move to a ViewModel,
+ *  and the spinner is a bit hacky. It's the only place where two-way data binding isn't used.
+ *  TODO =)
+ */
 class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private lateinit var viewModel: MainViewModel
@@ -36,7 +42,7 @@ class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.mainViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        //TODO: make this MVC by utilizing selectorviewmodel for all the logics
+        //TODO: this could go in a view model
         paletteArray = resources.getStringArray(R.array.palette_array)
         lightParams = viewModel.paramParams.lightParams
         val startIndex = when (lightParams.propertyMap["palette"]!!.value!!) {
@@ -63,6 +69,7 @@ class SelectorFragment : Fragment(), AdapterView.OnItemSelectedListener {
             spinner.adapter = adapter
         }
         spinner.setSelection(startIndex)
+
 
         spinner.onItemSelectedListener = this
         this.mainActivity = activity as MainActivity

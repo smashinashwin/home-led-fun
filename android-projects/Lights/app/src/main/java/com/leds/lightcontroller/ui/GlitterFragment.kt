@@ -12,6 +12,10 @@ import com.leds.lightcontroller.main.MainActivity
 import com.leds.lightcontroller.databinding.FragmentGlitterBinding
 import com.leds.lightcontroller.main.MainViewModel
 
+/*
+ * All this fragment need to do is draw the layout to the screen. and setup two-way data binding.
+ */
+
 class GlitterFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel

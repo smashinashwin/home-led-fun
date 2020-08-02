@@ -12,6 +12,10 @@ import com.leds.lightcontroller.main.MainActivity
 import com.leds.lightcontroller.databinding.FragmentEmberBinding
 import com.leds.lightcontroller.main.MainViewModel
 
+/*
+ * All this fragment need to do is draw the layout to the screen. and setup two-way data binding.
+ */
+
 class EmberFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
@@ -34,7 +38,6 @@ class EmberFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        //TODO: set the pattern livedata instead of setting the pattern here. that should kick off an event that sets the pattern
         val lightParams = mainActivity.viewModel.paramParams.lightParams
         lightParams.propertyMap["pattern"]!!.value = getString(R.string.emberpatternnumber)
     }

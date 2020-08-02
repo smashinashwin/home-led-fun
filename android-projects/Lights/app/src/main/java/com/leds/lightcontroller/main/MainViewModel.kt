@@ -6,9 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.leds.lightcontroller.livedata.*
 import com.leds.lightcontroller.utils.MqttAndroidClientWrapper
 
-class MainViewModel() : ViewModel() {
+/*
+ *  This is currently the only view model. It holds the MQTT wrapper object, and all live data params.
+ *  It handles communication between the view and the MQTT wrapper.
+ */
+class MainViewModel : ViewModel() {
+
     lateinit var mqttClient: MqttAndroidClientWrapper
-    //this thing has all the paramaters.
     lateinit var paramParams: ParamParams
 
     fun initialize(activity: MainActivity) {
@@ -21,6 +25,9 @@ class MainViewModel() : ViewModel() {
     }
 
     //TODO: convert all hard-coded strings to constants
+
+    //based on paramParams.mediator, drill through its member variables to find the parameter and value that changed.
+    //send these to the lamp.
     fun sendMessage(propertyName: String) {
         //choose the glitter or ember object, find the changed parameter and value, and send.
         val property: ParamsLiveData? = paramParams.propertyMap[propertyName]
@@ -40,9 +47,11 @@ class MainViewModel() : ViewModel() {
         }
     }
 
+    //turn the lamp on or off.
     fun flipSwitch() {
         val lightParams = paramParams.lightParams
         val powerStatus = lightParams.propertyMap["stateOn"]!!.value == "false"
+        //This value just changes the LiveData<String> object lightParams.stateOn. The paramParamsObserver then kicks off viewModel.sendMessage()
         lightParams.propertyMap["stateOn"]!!.value = if (powerStatus)  "true" else "false"
     }
 }

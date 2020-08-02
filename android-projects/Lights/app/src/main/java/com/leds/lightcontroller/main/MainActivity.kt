@@ -24,30 +24,39 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //create the view model to be used by all views and fragments in the app.
         val model = ViewModelProvider(this)
         viewModel = model.get(MainViewModel::class.java)
         viewModel.initialize(this)
+
+        //Load saved app data in case of navigating away or rotating.
         if (savedInstanceState != null) {
             viewModel.paramParams = savedInstanceState.get("key_live_data") as ParamParams
         }
-        binding = DataBindingUtil.setContentView(this,
-            R.layout.activity_main
-        )
+
+        //draw the xml layout to the screen
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navController = findNavController(R.id.nav_host_fragment)
+
+        //ensure the back button works correctly
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
 
+        //set up navigation in the bottom app bar
         val menu: BottomAppBar = binding.bottomAppBar
-
         menu.setOnMenuItemClickListener { menuItem ->
             navController.navigate(menuItem.itemId)
             true
         }
 
+
         NavigationUI.setupActionBarWithNavController(this, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
+
+        //set data variable in activity_main.xml for data binding.
         binding.mainViewModel = viewModel
         binding.lifecycleOwner = this
 
+        //super observer that watches paramParams.mediator.
         val paramParamsObserver = Observer<String> {
             viewModel.sendMessage(it)
         }
@@ -55,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainViewModel = this.viewModel
     }
 
+    //save app data incase of rotate or background.
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable("key_live_data", viewModel.paramParams)
@@ -62,6 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        //ensure mqtt is connected.
         viewModel.connectMqtt()
     }
 
@@ -71,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun flipSwitch(view: View) {
+        //this method is called from the FAB in activity_main.xml
         viewModel.flipSwitch()
     }
 }
