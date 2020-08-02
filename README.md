@@ -38,13 +38,25 @@ The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs t
   - XML
   
 ## Photos
-[Lamp](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Lamp.jpg)
-[Wiring](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Wiring.jpg)
+Lamp:
+![Lamp](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Lamp.jpg)
+
+Wiring:
+![Wiring](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Wiring.jpg)
+
+Ember Pattern:
+![ember](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Ember.gif)
 
 ## Future Work
 ### Scheduling and saving
 Build a backend on the raspberry pi that can database patterns / colors / palettes, and run a schedule for the lights. Build a front-end on the app to add schedules / settings / colors.
 Add more accent lighting and connect them to this system.
+
+## Problems and gotchas encountered:
+- Melting stuff. Make sure to use wires with enough [ampacity](https://xtronics.com/wiki/Wire-Gauge_Ampacity.html) for your project.
+- RGBW isn't supported by FastLED
+- These LEDs don't play well with multi-core microcontrollers (the ESP32 for example). If you want to use the ESP32 and/or FastLED, check out the APA* lights [amazon](https://www.amazon.com/gp/product/B078JVS2VG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+- The ESP8266 can get overwhelmed if continuously parsing JSON or sending instructions to the LEDs. Use delays or timers. The android app queues messages and sends them on a 50ms delay.
 
 ## Helpful Links and Resources
 - [This project is most similar to the work in this guide; super helpful!](https://www.youtube.com/watch?v=9KI36GTgwuQ)
