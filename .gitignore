@@ -1,2 +1,4 @@
 *.h
 _*
+!sample_config.h
+!_sample_mqttconfig.txt

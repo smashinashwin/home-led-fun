@@ -18,7 +18,13 @@ import java.io.InputStream
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.NoSuchElementException
 
-
+/*
+ * This class handles all communication with the MQTT broker.
+ * It is in charge of receiving messages from the view model,
+ * creating MQTT message objects from them,
+ * maintaining a queue of messages and sending them to the broker,
+ * and keeping itself connected.
+ */
 class MqttAndroidClientWrapper(activity: MainActivity): ViewModel() {
     init {
         loadParams(activity)

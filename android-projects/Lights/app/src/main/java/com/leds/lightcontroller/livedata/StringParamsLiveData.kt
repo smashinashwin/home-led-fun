@@ -2,6 +2,9 @@ package com.leds.lightcontroller.livedata
 
 import androidx.lifecycle.MutableLiveData
 
+/*
+ * See ParamsLiveData for more information.
+ */
 abstract class StringParamsLiveData: ParamsLiveData() {
 
     abstract val propertyNames: Array<String>

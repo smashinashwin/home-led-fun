@@ -14,6 +14,9 @@ import com.leds.lightcontroller.R
 import com.leds.lightcontroller.databinding.FragmentSolidBinding
 import com.leds.lightcontroller.main.MainViewModel
 
+/*
+ * All this fragment need to do is draw the layout to the screen. and setup two-way data binding.
+ */
 class SolidFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
@@ -35,7 +38,9 @@ class SolidFragment : Fragment() {
 
         return binding.root
     }
-
+    /*
+     * The palette selector isn't relevant for this view, so hide it.
+     */
     override fun onStart() {
         super.onStart()
         val lightParams = mainActivity.viewModel.paramParams.lightParams
