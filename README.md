@@ -43,14 +43,9 @@ The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs t
     - XML
   
 ## Photos
-### Ember Pattern:
+### Lamp + App
 
-![ember](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Ember_gif.gif)
-
-
-### App 
-
-![app](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/app_gif.gif)
+![lamp_app](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/lamp_app_demo.gif)
 
 
 #### Wiring:
