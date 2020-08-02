@@ -31,16 +31,16 @@ The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs t
 
 ## Software
 - Arduino IDE / C++ for the controller code
-  - PubSubClient
-  - ArduinoJson
-  - Adafruit NeoPixel
+    - PubSubClient
+    - ArduinoJson
+    - Adafruit NeoPixel
   
 - Raspberry Pi 
-  - [Mosquitto MQTT broker](https://mosquitto.org/)
+    - [Mosquitto MQTT broker](https://mosquitto.org/)
  
  - Android App
-  - Kotlin
-  - XML
+    - Kotlin
+    - XML
   
 ## Photos
 ### Ember Pattern:
