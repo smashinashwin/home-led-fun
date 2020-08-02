@@ -64,9 +64,13 @@ The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs t
 ## Problems and gotchas encountered:
 - Melting stuff. Make sure to use wires with enough [ampacity](https://xtronics.com/wiki/Wire-Gauge_Ampacity.html) for your project.
 - RGBW isn't supported by FastLED
-- These LEDs don't play well with multi-core microcontrollers (the ESP32 for example). If you want to use the ESP32 and/or FastLED, check out the APA* lights [amazon](https://www.amazon.com/gp/product/B078JVS2VG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
-- The ESP8266 can get overwhelmed if continuously parsing JSON or sending instructions to the LEDs. Use delays or timers. The android app queues messages and sends them on a 50ms delay. 
+- These LEDs don't play well with multi-core microcontrollers (the ESP32 for example). If you want to use the ESP32 and/or FastLED, check out APA* lights [amazon](https://www.amazon.com/gp/product/B078JVS2VG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+- The ESP8266 can get overwhelmed if continuously parsing JSON or sending instructions to the LEDs. Use delays or timers. The android app queues messages and sends them on a 50ms delay. The watchdog timer is also finnicky, so setting the clock to something custom helps with stability. (see these lines in corner_lamp.ino:)   
+
+`ESP.wdtDisable();`
+`ESP.wdtEnable(WDTO_8S); //fixing watchdog resets`
 - Hand-sawing is both hard and dangerous.
+- Soldering to PCB boards takes a lot of care. Luckily, dev boards are cheap.
 
 
 ## Helpful Links and Resources
