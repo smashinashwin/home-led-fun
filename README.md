@@ -45,7 +45,7 @@ Wiring:
 ![Wiring](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Wiring.jpg)
 
 Ember Pattern:
-![ember](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Ember.gif)
+![ember](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Ember_gif.gif)
 
 ## Future Work
 ### Scheduling and saving
