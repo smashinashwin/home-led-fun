@@ -1,8 +1,18 @@
-# home-led-fun
-### A repo for wifi-controlled LED projects.
+
+## Photos
+### Lamp + App
+
+![lamp_app](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/lamp_app_demo.gif)
+
+
+### Wiring:
+![Wiring](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Wiring.jpg)
 
 ## Summary
 This is a wifi-controlled smart lamp. It uses SK6812 RGBW Leds, powered by a 5V 20A power supply, controlled by an ESP8266 Microcontroller, listening to a Mosquitto broker on a Raspberry Pi and an Android app to provide light, look awesome, and enable easy control.
+
+## Quick Architecture Diagram
+![Arch](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/architecture.jpg)
 
 ## Getting started (software)
 1. Install the Arduino IDE and Android Studio.
@@ -41,17 +51,6 @@ The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs t
  - Android App
     - Kotlin
     - XML
-  
-## Photos
-### Lamp + App
-
-![lamp_app](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/lamp_app_demo.gif)
-
-
-#### Wiring:
-
-![Wiring](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Wiring.jpg)
-
 ## Future Work
 **Scheduling and saving**
 - Build a backend on the raspberry pi that can database patterns / colors / palettes, and run a schedule for the lights. Build a front-end on the app to add schedules / settings / colors.
