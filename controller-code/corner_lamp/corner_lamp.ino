@@ -1,6 +1,7 @@
-/*
+ /*
  * to-dos:
  * as of 6/10/20
+ * 0. The watchdog timer triggers due to a wifi disconnect. Need to ensure it's 'fed' when the wifi disconnects. Seems like the signal gets picked up eventually.
  * 1. make fastled-like palette gen function better
  * 2. test - do we need to store pixel state or should we fetch it with this new fast processor? Big refactor tho.
  * 3. Make random randomer with a seed 
