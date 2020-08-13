@@ -95,8 +95,13 @@ class MainActivity : AppCompatActivity() {
         val currentFragment = navHost!!.childFragmentManager.primaryNavigationFragment
         val a = (currentFragment is EmberFragment)
         Log.i("ember fragment", a.toString())
+
+        if (currentFragment is EmberFragment) {
+
+        }
         //based on what fragment, do a thing.
-        //The mediator is an OK proxy, but won't work 100% of the time. 
+        //The mediator is an OK proxy, but won't work 100% of the time.
+        //Use the live data in param params to do the rest.
         viewModel.saveSetting()
     }
 
