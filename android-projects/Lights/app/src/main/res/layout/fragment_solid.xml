@@ -18,20 +18,20 @@
             android:id="@id/navigation_selector"
             android:name="com.leds.lightcontroller.ui.SelectorFragment"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/text_solid"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="14dp"
+
             />
 
 
         <TextView
             android:id="@+id/text_solid"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:background="@{mainViewModel.paramParams.solidParams.color}"
             android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/red"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_solid" />

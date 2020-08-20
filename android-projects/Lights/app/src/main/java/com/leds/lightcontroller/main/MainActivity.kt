@@ -7,19 +7,24 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.ui.*
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.leds.lightcontroller.databinding.ActivityMainBinding
 import com.leds.lightcontroller.R
 import com.leds.lightcontroller.livedata.ParamParams
+import com.leds.lightcontroller.ui.EmberFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     lateinit var viewModel: MainViewModel
+    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         //draw the xml layout to the screen
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
 
         //ensure the back button works correctly
         NavigationUI.setupActionBarWithNavController(this, navController, binding.drawerLayout)
@@ -85,4 +90,19 @@ class MainActivity : AppCompatActivity() {
         //this method is called from the FAB in activity_main.xml
         viewModel.flipSwitch()
     }
+    fun saveSetting(view: View) {
+        val navHost = this.supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val currentFragment = navHost!!.childFragmentManager.primaryNavigationFragment
+        val a = (currentFragment is EmberFragment)
+        Log.i("ember fragment", a.toString())
+
+        if (currentFragment is EmberFragment) {
+
+        }
+        //based on what fragment, do a thing.
+        //The mediator is an OK proxy, but won't work 100% of the time.
+        //Use the live data in param params to do the rest.
+        viewModel.saveSetting()
+    }
+
 }
