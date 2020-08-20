@@ -1,20 +1,29 @@
-# home-led-fun
-### A repo for wifi-controlled LED projects.
+
+## Photos
+### Lamp + App
+
+![lamp_app](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/lamp_app_demo.gif)
+
+
+### Wiring:
+![Wiring](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Wiring.jpg)
 
 ## Summary
 This is a wifi-controlled smart lamp. It uses SK6812 RGBW Leds, powered by a 5V 20A power supply, controlled by an ESP8266 Microcontroller, listening to a Mosquitto broker on a Raspberry Pi and an Android app to provide light, look awesome, and enable easy control.
+
+## Quick Architecture Diagram
+![Arch](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/architecture.jpg)
 
 ## Getting started (software)
 1. Install the Arduino IDE and Android Studio.
 2. Install the ESP8266 drivers on the Arduino IDE. See this [link](https://dzone.com/articles/programming-the-esp8266-with-the-arduino-ide-in-3) for help.
 3. Clone the repo.
 4. Set up a Mosquitto MQTT broker on whatever you want to use as your server. Check out this [link](https://www.pakstech.com/blog/raspberry-pi-mosquitto-getting-started/) to get started. Currently, the lamp listens for the lamp/pattern and the lamp/state topics.
-5. Rename 'controller_code/corner-lamp/sample_config.h' to 'config.h', and android-projects/Lights/app/src/main/res/raw/_sample_mqttconfig.txt to '_mqttconfig.txt.'
-6. Change the variables in these file to match your wifi settings, Arduino settings, MQTT settings, and Android settings.
-7. You may need to install relevant packages in your Arduino IDE (Adafruit_Neopixel, PubSubClient, ArduinoJson, etc).
-8. Connect your ESP8266 to a power supply and some LEDs, and change #define PIN_0 D2 & #define PIN_1 D4 in corner_lamp.ino to the pins you used. (Wiring LEDs is a bit out of scope for this readme, but some of the links below should help). You may need to change other variables in the 'NEOPIXEL SETUP' section depending on your setup.
-9. Plug your computer into the ESP8266, and upload your .ino file.
-10. Run the app from Android studio in an emulator or on your phone to interact with the LEDs. You can also send mqtt messages via command line.
+5. Rename 'controller_code/corner-lamp/sample_config.h' to 'config.h', and android-projects/Lights/app/src/main/res/raw/_sample_mqttconfig.txt to '_mqttconfig.txt.' Change the variables in these file to match your wifi settings, Arduino settings, MQTT settings, and Android settings.
+6. You may need to install relevant packages in your Arduino IDE (Adafruit_Neopixel, PubSubClient, ArduinoJson, etc).
+7. Connect your ESP8266 to a power supply and some LEDs, and change #define PIN_0 D2 & #define PIN_1 D4 in corner_lamp.ino to the pins you used. (Wiring LEDs is a bit out of scope for this readme, but some of the links below should help). You may need to change other variables in the 'NEOPIXEL SETUP' section depending on your setup.
+8. Plug your computer into the ESP8266, and upload your .ino file.
+9. Run the app from Android studio in an emulator or on your phone to interact with the LEDs. You can also send mqtt messages via command line.
 
 
 ## Hardware
@@ -42,17 +51,6 @@ The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs t
  - Android App
     - Kotlin
     - XML
-  
-## Photos
-### Lamp + App
-
-![lamp_app](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/lamp_app_demo.gif)
-
-
-#### Wiring:
-
-![Wiring](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/Wiring.jpg)
-
 ## Future Work
 **Scheduling and saving**
 - Build a backend on the raspberry pi that can database patterns / colors / palettes, and run a schedule for the lights. Build a front-end on the app to add schedules / settings / colors.
@@ -65,9 +63,13 @@ The 20V 5A power supply is hooked up to terminals on the PCB board. Power runs t
 ## Problems and gotchas encountered:
 - Melting stuff. Make sure to use wires with enough [ampacity](https://xtronics.com/wiki/Wire-Gauge_Ampacity.html) for your project.
 - RGBW isn't supported by FastLED
-- These LEDs don't play well with multi-core microcontrollers (the ESP32 for example). If you want to use the ESP32 and/or FastLED, check out the APA* lights [amazon](https://www.amazon.com/gp/product/B078JVS2VG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
-- The ESP8266 can get overwhelmed if continuously parsing JSON or sending instructions to the LEDs. Use delays or timers. The android app queues messages and sends them on a 50ms delay. 
+- These LEDs don't play well with multi-core microcontrollers (the ESP32 for example). If you want to use the ESP32 and/or FastLED, check out APA* lights [amazon](https://www.amazon.com/gp/product/B078JVS2VG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1)
+- The ESP8266 can get overwhelmed if continuously parsing JSON or sending instructions to the LEDs. Use delays or timers. The android app queues messages and sends them on a 50ms delay. The watchdog timer is also finnicky, so setting the clock to something custom helps with stability. (see these lines in corner_lamp.ino:)   
+
+`ESP.wdtDisable();`
+`ESP.wdtEnable(WDTO_8S); //fixing watchdog resets`
 - Hand-sawing is both hard and dangerous.
+- Soldering to PCB boards takes a lot of care. Luckily, dev boards are cheap.
 
 
 ## Helpful Links and Resources
