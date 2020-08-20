@@ -6,4 +6,5 @@
     <color name="colorWhite">#FFFF</color>\
     <color name="colorOn">#00FF0A</color>\
     <color name="colorOff">#FF3C00</color>\
+    <color name="clear">#00FFFFFF</color>
 </resources>

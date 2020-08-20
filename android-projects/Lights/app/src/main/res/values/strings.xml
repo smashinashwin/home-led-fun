@@ -30,6 +30,7 @@
     <string name="emberpatternnumber">0</string>
     <string name="glitterpatternnumber">1</string>
     <string name="solidpatternnumber">3</string>
+    <string name="save">Save Setting</string>
 
 
     <string-array name="palette_array">
