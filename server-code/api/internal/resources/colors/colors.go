@@ -56,6 +56,7 @@ func (rs Resource) List(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 		fmt.Println(name, red, green, blue, white)
+		w.Write([]byte(name + fmt.Sprint(red) + fmt.Sprint(green) + fmt.Sprint(blue) + fmt.Sprint(white)))
 	}
 
 	// (w << 24) | (r << 16) | (g << 8) | b) = colors.rgbw
@@ -63,3 +64,23 @@ func (rs Resource) List(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("color get")
 	w.Write([]byte("aaa list of stuff.."))
 }
+
+// the following does json. how to adapt my code? read a query into a struct, read that into json?!
+/*
+type Todo struct {
+	Slug  string `json:"slug"`
+	Title string `json:"title"`
+	Body  string `json:"body"`
+}
+
+
+func (config *Config) GetATodo(w http.ResponseWriter, r *http.Request) {
+	todoID := chi.URLParam(r, "todoID")
+	todos := Todo{
+		Slug:  todoID,
+		Title: "Hello world",
+		Body:  "Heloo world from planet earth",
+	}
+	render.JSON(w, r, todos) // A chi router helper for serializing and returning json
+}
+*/
