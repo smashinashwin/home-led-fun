@@ -1,7 +1,7 @@
 /*Api structure:
 /v1/api/ashleds/schedue 	CRUD
 /v1/api/ashleds/color 		CRUD
-/v1/api/ashleds/pattern	CRUD
+/v1/api/ashleds/pattern	    CRUD
 /v1/api/ashleds/palette 	CRUD (can only create palettes out of existing colors?
 Or allow new colors and just push them to the colors table if they don’t exist)
 */
