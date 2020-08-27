@@ -12,7 +12,7 @@
 This is a wifi-controlled smart lamp. It uses SK6812 RGBW Leds, powered by a 5V 20A power supply, controlled by an ESP8266 Microcontroller, listening to a Mosquitto broker on a Raspberry Pi and an Android app to provide light, look awesome, and enable easy control.
 
 ## Quick Architecture Diagram
-![Arch](https://github.com/smashinashwin/home-led-fun/blob/master/Photos/architecture.jpg)
+![Arch](https://github.com/smashinashwin/home-led-fun/master/Photos/architecture.jpg)
 
 ## Getting started (software)
 1. Install the Arduino IDE and Android Studio.
