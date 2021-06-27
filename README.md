@@ -21,9 +21,9 @@ This is a wifi-controlled smart lamp. It uses SK6812 RGBW Leds, powered by a 5V 
 4. Set up a Mosquitto MQTT broker on whatever you want to use as your server. Check out this [link](https://www.pakstech.com/blog/raspberry-pi-mosquitto-getting-started/) to get started. Currently, the lamp listens for the lamp/pattern and the lamp/state topics.
 5. Rename 'controller_code/corner-lamp/sample_config.h' to 'config.h', and android-projects/Lights/app/src/main/res/raw/_sample_mqttconfig.txt to '_mqttconfig.txt.' Change the variables in these file to match your wifi settings, Arduino settings, MQTT settings, and Android settings.
 6. You may need to install relevant packages in your Arduino IDE (Adafruit_Neopixel, PubSubClient, ArduinoJson, etc).
-7. Connect your ESP8266 to a power supply and some LEDs, and change #define PIN_0 D2 & #define PIN_1 D4 in corner_lamp.ino to the pins you used. (Wiring LEDs is a bit out of scope for this readme, but some of the links below should help). You may need to change other variables in the 'NEOPIXEL SETUP' section depending on your setup.
-8. Plug your computer into the ESP8266, and upload your .ino file.
-9. Run the app from Android studio in an emulator or on your phone to interact with the LEDs. You can also send mqtt messages via command line.
+7. Connect your ESP8266 to a power supply and some LEDs, and change #define PIN_0 D2 & #define PIN_1 D4 in corner_lamp.ino to the pins you used. (Wiring LEDs is a bit out of scope for this readme, but some of the links below should help). You may need to change other variables in the 'NEOPIXEL SETUP' section depending on your setup. Note that these pin definitions only work for NodeMCU ESP8266s; ensure you've selected the appropriate chip in your Arduino IDE.
+9. Plug your computer into the ESP8266, and upload your .ino file.
+10. Run the app from Android studio in an emulator or on your phone to interact with the LEDs. You can also send mqtt messages via command line.
 
 
 ## Hardware
